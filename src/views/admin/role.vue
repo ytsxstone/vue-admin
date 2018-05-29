@@ -6,14 +6,23 @@
     <div>
         <Card dis-hover>
             <div class="page-body">
+                <div>
+                    <Row class="inline-block">
+                        <Input type="text" v-model="keyWord" icon="search" placeholder="关键字" style="width: 200px" @keyup.enter.native="getPageData" />
+                        <i-button type="primary" icon="ios-search" @click="getPageData">搜索</i-button>
+                    </Row>
+                    <Row class="inline-block-right">
+                        <i-button type="primary" @click="create"><Icon type="plus"></Icon> 新增角色</i-button>
+                    </Row>
+                </div>
                 <div class="margin-top-10">
                     <Table :loading="loading" :columns="columns" no-data-text="暂无数据" border :data="list"></Table>
                     <Page  show-sizer class-name="fengpage" :total="totalCount" class="margin-top-10" @on-change="pageChange" @on-page-size-change="pageSizeChange" :page-size="pageSize" :current="currentPage"></Page>
                 </div>
             </div>
         </Card>
-        <role-create v-model="createModalShow"  @save-success="getPage"></role-create>
-        <role-edit v-model="editModalShow"  @save-success="getPage"></role-edit>
+        <role-create v-model="createModalShow"  @save-success="getPageData"></role-create>
+        <role-edit v-model="editModalShow"  @save-success="getPageData"></role-edit>
     </div>
 </template>
 
@@ -29,6 +38,7 @@ export default {
     },
     data () {
         return {
+            keyWord: '',
             createModalShow: false,
             editModalShow: false,
             columns: [{
@@ -83,7 +93,7 @@ export default {
                                                     type: 'role/delete',
                                                     data: params.row
                                                 });
-                                                await this.getPage();
+                                                await this.getPageData();
                                             }
                                     })
                                 }
@@ -118,20 +128,22 @@ export default {
         edit() {
             this.editModalShow = true;
         },
+        edit2() {
+            this.getPageData();
+        },
         pageChange(page) {
             this.$store.commit('role/setCurrentPage', page);
-            this.getPage();
+            this.getPageData();
         },
-        pageSizeChange(pageSize){
+        pageSizeChange(pageSize) {
             this.$store.commit('role/setPageSize', pageSize);
-            this.getPage();
+            this.getPageData();
         },
-        async getPage(){
-            let where = '';
+        async getPageData() {
             let pageRequest = {};
             pageRequest.maxResultCount = this.pageSize;
             pageRequest.skipCount = (this.currentPage-1)*this.pageSize;
-            pageRequest.where = where;
+            pageRequest.keyWord = this.keyWord;
             await this.$store.dispatch({
                 type: 'role/getAll',
                 data: pageRequest
@@ -139,7 +151,6 @@ export default {
         }
     },
     async created() {
-        this.getPage();
         await this.$store.dispatch({
             type:'role/getAllPermissions'
         });
