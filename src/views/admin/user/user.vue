@@ -12,7 +12,7 @@
                         <i-button type="primary" icon="ios-search" @click="getPageData">搜索</i-button>
                     </Row>
                     <Row class="inline-block-right">
-                        <i-button type="primary" @click="create"><Icon type="plus"></Icon> 添加用户</i-button>
+                        <i-button type="primary" :disabled="!permissions.create" @click="create"><Icon type="plus"></Icon> 添加用户</i-button>
                     </Row>
                 </div>
                 <div class="margin-top-10">
@@ -29,6 +29,7 @@
 <script>
 import userCreate from './user-create.vue';
 import userEdit from './user-edit.vue';
+import Util from '@/libs/util.js';
 
 export default {
     name: 'user',
@@ -41,6 +42,11 @@ export default {
             keyWord: '',
             createModalShow: false,
             editModalShow: false,
+            permissions: {
+                create: Util.abp.auth.isGranted('Pages.Administration.Users.Create'),
+                edit: Util.abp.auth.isGranted('Pages.Administration.Users.Edit'),
+                delete: Util.abp.auth.isGranted('Pages.Administration.Users.Delete'),
+            },
             columns: [{
                 title: '帐号',
                 key: 'userName'
@@ -73,7 +79,7 @@ export default {
                             props:{
                                 type:'primary',
                                 size:'small',
-                                icon: 'android-create'
+                                icon:'android-create'
                             },
                             style:{
                                 marginRight:'5px'
@@ -89,15 +95,15 @@ export default {
                             props:{
                                 type:'error',
                                 size:'small',
-                                icon: 'android-delete'
+                                icon:'android-delete'
                             },
                             on:{
                                 click:async ()=>{
                                     this.$Modal.confirm({
-                                        title: 'Tips',
-                                        content: '您确定要删除这条数据吗?',
-                                        okText: '确定',
-                                        cancelText: '取消',
+                                        title:'Tips',
+                                        content:'您确定要删除这条数据吗?',
+                                        okText:'确定',
+                                        cancelText:'取消',
                                         onOk:async()=>{
                                             await this.$store.dispatch({
                                                 type:'user/delete',

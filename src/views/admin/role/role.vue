@@ -65,7 +65,7 @@ export default {
                             props:{
                                 type:'primary',
                                 size:'small',
-                                icon: 'android-create'
+                                icon:'android-create'
                             },
                             style:{
                                 marginRight:'5px'
@@ -81,19 +81,19 @@ export default {
                             props:{
                                 type:'error',
                                 size:'small',
-                                icon: 'android-delete'
+                                icon:'android-delete'
                             },
                             on:{
                                 click:async ()=>{
                                     this.$Modal.confirm({
-                                        title: 'Tips',
-                                        content: '您确定要删除这条数据吗?',
-                                        okText: '确定',
-                                        cancelText: '取消',
+                                        title:'Tips',
+                                        content:'您确定要删除这条数据吗?',
+                                        okText:'确定',
+                                        cancelText:'取消',
                                         onOk:async()=>{
                                             await this.$store.dispatch({
-                                                type: 'role/delete',
-                                                data: params.row
+                                                type:'role/delete',
+                                                data:params.row
                                             });
                                             await this.getPageData();
                                         }
