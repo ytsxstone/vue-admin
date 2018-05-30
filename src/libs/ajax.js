@@ -2,6 +2,7 @@ import Vue from 'vue';
 import axios from 'axios';
 import Util from './util';
 import appConfig from './appConfig';
+import sweetAlert from "./sweetAlert";
 
 // 创建axios实例
 const ajax = axios.create({
@@ -27,13 +28,13 @@ ajax.interceptors.response.use((response)=>{
     return response;
 },(error)=>{
     if(!!error.response&&!!error.response.data.error&&!!error.response.data.error.message&&error.response.data.error.details) {
-        vm.$Modal.error({title:error.response.data.error.message,content:error.response.data.error.details});
+        sweetAlert.error(error.response.data.error.message, error.response.data.error.details);
     }
     else if(!!error.response&&!!error.response.data.error&&!!error.response.data.error.message) {
-        vm.$Modal.error({title:window.abp.localization.localize("LoginFailed"), content:error.response.data.error.message});
+        sweetAlert.error(window.abp.localization.localize("LoginFailed"), error.response.data.error.message);
     }
     else if(!error.response) {
-        vm.$Modal.error({title: 'Error', content: window.abp.localization.localize('UnknownError')});
+        sweetAlert.error('Error', window.abp.localization.localize('UnknownError'));
     }
 
     // 关闭消息框

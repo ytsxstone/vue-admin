@@ -94,18 +94,18 @@ export default {
                             on:{
                                 click:async ()=>{
                                     this.$Modal.confirm({
-                                            title: 'Tips',
-                                            content: '您确定要删除这条数据吗?',
-                                            okText: '确定',
-                                            cancelText: '取消',
-                                            onOk:async()=>{
-                                                await this.$store.dispatch({
-                                                    type:'user/delete',
-                                                    data:params.row
-                                                })
-                                                await this.getPageData();
-                                            }
-                                    })
+                                        title: 'Tips',
+                                        content: '您确定要删除这条数据吗?',
+                                        okText: '确定',
+                                        cancelText: '取消',
+                                        onOk:async()=>{
+                                            await this.$store.dispatch({
+                                                type:'user/delete',
+                                                data:params.row
+                                            })
+                                            await this.getPageData();
+                                        }
+                                    });
                                 }
                             }
                         }, '删除')
