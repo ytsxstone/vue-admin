@@ -42,8 +42,8 @@ export const otherRouter = {
     meta: { title: '首页' },
     component: main,
     children: [
-        { path: 'home', name: 'home', permission: 'Pages', meta: { title: '首页' }, component: () => import('@/views/home/home.vue') },
-        { path: 'ownspace', name: 'ownspace', permission: 'Pages',  meta: { title: '个人中心' }, component: () => import('@/views/own-space/own-space.vue') }
+        { path: 'home', name: 'home', permission: '', meta: { title: '首页' }, component: () => import('@/views/home/home.vue') },
+        { path: 'ownspace', name: 'ownspace', permission: '',  meta: { title: '个人中心' }, component: () => import('@/views/own-space/own-space.vue') }
     ]
 };
 
@@ -57,8 +57,8 @@ export const appRouter = [
         meta: { title: '系统设置' },
         component: main,
         children: [
-            { path: 'user', name: 'user', permission:'Pages.Administration.Users', meta: { title: '用户管理' }, component: () => import('@/views/admin/user.vue') },
-            { path: 'role', name: 'role', permission:'Pages.Administration.Roles', meta: { title: '角色管理' }, component: () => import('@/views/admin/role.vue') }
+            { path: 'user', name: 'user', permission:'Pages.SystemManagement.Users', meta: { title: '用户管理' }, component: () => import('@/views/admin/user/user.vue') },
+            { path: 'role', name: 'role', permission:'Pages.SystemManagement.Roles', meta: { title: '角色管理' }, component: () => import('@/views/admin/role/role.vue') }
         ]
     },
     {
@@ -69,8 +69,8 @@ export const appRouter = [
         meta: { title: '积分管理' },
         component: main,
         children: [
-            { path: 'rank', name: 'rank', permission:'Pages.Administration.PointRanks', meta: { title: '积分等级' }, component: () => import('@/views/point/rank.vue') },
-            { path: 'rule', name: 'rule', permission:'Pages.Administration.PointRules', meta: { title: '积分规则' }, component: () => import('@/views/point/rule.vue') }
+            { path: 'rank', name: 'rank', permission:'Pages.PointManagement.PointRanks', meta: { title: '积分等级' }, component: () => import('@/views/point/rank/rank.vue') },
+            { path: 'rule', name: 'rule', permission:'Pages.PointManagement.PointRules', meta: { title: '积分规则' }, component: () => import('@/views/point/rule/rule.vue') }
         ]
     },
     {
@@ -81,7 +81,7 @@ export const appRouter = [
         meta: { title: '错误页面' },
         component: main,
         children: [
-            { path: 'error', name: 'error', permission: 'Pages', meta: { title: '错误页面' }, component: () => import('@/views/error/error.vue') }
+            { path: 'error', name: 'error', permission: '', meta: { title: '错误页面' }, component: () => import('@/views/error/error.vue') }
         ]
     }
 ];

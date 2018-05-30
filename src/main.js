@@ -6,18 +6,26 @@ import App from './app';
 import {router} from './router/index';
 import {appRouter} from './router/router';
 import store from './store/index';
-import VueI18n from 'vue-i18n';
 import VueWechatTitle from 'vue-wechat-title';  
 import Ajax from '@/libs/ajax';
 import Util from '@/libs/util';
+import appConfig from '@/libs/appConfig';
 import 'iview/dist/styles/iview.css';
 
 Vue.use(iView);
-Vue.use(VueI18n);
 Vue.use(VueWechatTitle);
 
-//将Ajax挂载到prototype上,在组件中可以直接使用this.$Ajax访问
+// 将Ajax挂载到prototype上,在组件中可以直接使用this.$Ajax访问
 Vue.prototype.$Ajax = Ajax;
+// 增加全局语言国际化函数
+Vue.prototype.L = function (value,source,...argus) {
+    if(source) {
+        return window.abp.localization.localize(value,source,argus);
+    }
+    else {
+        return window.abp.localization.localize(value,appConfig.localization.defaultLocalizationSourceName,argus);
+    }
+}
 
 Vue.config.productionTip = false;
 

@@ -46,12 +46,8 @@ export default {
                 rememberMe: false
             },
             rules: {
-                userNameOrEmailAddress: [
-                    { required: true, message: '账号不能为空', trigger: 'blur' }
-                ],
-                password: [
-                    { required: true, message: '密码不能为空', trigger: 'blur' }
-                ]
+                userNameOrEmailAddress: [{ required: true, message: '账号不能为空', trigger: 'blur' }],
+                password: [{ required: true, message: '密码不能为空', trigger: 'blur' }]
             }
         };
     },
