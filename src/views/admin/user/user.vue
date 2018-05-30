@@ -79,7 +79,8 @@ export default {
                             props:{
                                 type:'primary',
                                 size:'small',
-                                icon:'android-create'
+                                icon:'android-create',
+                                disabled:!this.permissions.edit
                             },
                             style:{
                                 marginRight:'5px'
@@ -95,7 +96,8 @@ export default {
                             props:{
                                 type:'error',
                                 size:'small',
-                                icon:'android-delete'
+                                icon:'android-delete',
+                                disabled:!this.permissions.delete
                             },
                             on:{
                                 click:async ()=>{
