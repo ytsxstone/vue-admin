@@ -19,13 +19,13 @@
                             <Input v-model="userModel.password" type="password" :maxlength="32"></Input>
                         </FormItem>
                         <FormItem prop="isActive">
-                            <Checkbox v-model="userModel.isActive">是否激活</Checkbox>
+                            <Checkbox v-model="userModel.isActive" size="large">是否激活</Checkbox>
                         </FormItem>
                     </TabPane>
                     <TabPane label="角色信息" name="roleNames">
                         <FormItem prop="roleNames">
                             <CheckboxGroup v-model="userModel.roleNames">
-                                <Checkbox :label="role.normalizedName" v-for="role in roles" :key="role.id"><span>{{role.name}}</span></Checkbox>
+                                <Checkbox :label="role.normalizedName" v-for="role in roles" :key="role.id" size="large"><span>{{role.name}}</span></Checkbox>
                             </CheckboxGroup>
                         </FormItem>
                     </TabPane>

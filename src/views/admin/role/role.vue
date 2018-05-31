@@ -59,7 +59,11 @@ export default {
             },{
                 title: '是否静态(预构建)',
                 render: (h,params)=>{
-                    return h('span',params.row.isStatic?'是':'否');
+                    return h('tag',{ 
+                        props:{
+                            color:params.row.isStatic?'blue':'default',
+                        },
+                    }, params.row.isStatic?'是':'否');
                 }
             },{
                 title: 'Actions',
@@ -109,7 +113,7 @@ export default {
                                 }
                             }
                         }, '删除')
-                    ])
+                    ]);
                 }
             }]
         };

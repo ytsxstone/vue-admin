@@ -54,20 +54,30 @@ export default {
                 title: '姓名',
                 key: 'name'
             },{
-                title: '是否激活',
+                title: '角色',
                 render:(h,params)=>{
-                return h('span',params.row.isActive?'是':'否')
+                    return h('span',params.row.roleNames.join());
+                }
+            },{
+                title: '激活',
+                render:(h,params)=>{
+                    //return h('span',params.row.isActive?'是':'否');
+                    return h('tag',{ 
+                        props:{
+                            color:params.row.isActive?'default':'yellow',
+                        },
+                    }, params.row.isActive?'是':'否');
                 }
             },{
                 title: '创建时间',
                 key:'creationTime',
                 render:(h,params)=>{
-                    return h('span',new Date(params.row.creationTime).toLocaleDateString())
+                    return h('span',new Date(params.row.creationTime).toLocaleDateString());
                 }
             },{
-                title: '最后登录时间',
+                title: '上次登录时间',
                 render:(h,params)=>{
-                    return h('span',new Date(params.row.lastLoginTime).toLocaleString())
+                    return params.row.lastLoginTime?h('span',new Date(params.row.lastLoginTime).toLocaleString()):'';
                 }
             },{
                 title:this.L('Actions'),
@@ -117,7 +127,7 @@ export default {
                                 }
                             }
                         }, '删除')
-                    ])
+                    ]);
                 }
             }]
         };
