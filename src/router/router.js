@@ -3,7 +3,7 @@ import main from '@/views/main/main.vue';
 export const loginRouter = {
     path: '/',
     name: 'login',
-    meta: { title: 'Login-登录' },
+    meta: { title: '登录' },
     component: () => import('@/views/login/login.vue')
 };
 

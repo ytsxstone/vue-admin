@@ -16,7 +16,7 @@
                     </Row>
                 </div>
                 <div class="margin-top-10">
-                    <Table :loading="loading" :columns="columns" no-data-text="暂无数据" border :data="list"></Table>
+                    <Table :loading="loading" :columns="columns" border :data="list"></Table>
                     <Page  show-sizer class-name="fengpage" :total="totalCount" class="margin-top-10" @on-change="pageChange" @on-page-size-change="pageSizeChange" :page-size="pageSize" :current="currentPage"></Page>
                 </div>
             </div>
@@ -43,9 +43,9 @@ export default {
             createModalShow: false,
             editModalShow: false,
             permissions: {
-                create: Util.abp.auth.isGranted('Pages.Administration.Users.Create'),
-                edit: Util.abp.auth.isGranted('Pages.Administration.Users.Edit'),
-                delete: Util.abp.auth.isGranted('Pages.Administration.Users.Delete'),
+                create: Util.abp.auth.isGranted('Pages.SystemManagement.Users.Create'),
+                edit: Util.abp.auth.isGranted('Pages.SystemManagement.Users.Edit'),
+                delete: Util.abp.auth.isGranted('Pages.SystemManagement.Users.Delete'),
             },
             columns: [{
                 title: '帐号',

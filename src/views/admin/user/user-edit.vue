@@ -1,7 +1,7 @@
 <template>
     <div>
         <Modal
-            title="添加用户"
+            title="编辑用户"
             :value="value"
             @on-ok="save"
             @on-visible-change="visibleChange"
@@ -22,7 +22,7 @@
                             <Checkbox v-model="userModel.isActive">是否激活</Checkbox>
                         </FormItem>
                     </TabPane>
-                    <TabPane label="用户角色" name="roleNames">
+                    <TabPane label="角色信息" name="roleNames">
                         <FormItem prop="roleNames">
                             <CheckboxGroup v-model="userModel.roleNames">
                                 <Checkbox :label="role.normalizedName" v-for="role in roles" :key="role.id"><span>{{role.name}}</span></Checkbox>
@@ -48,8 +48,6 @@
                 userModel: {
                     userName: '',
                     name: '',
-                    surname: 'stone',
-                    emailAddress: 'd55D@qq.com',
                     password: '',
                     isActive: true,
                     roleNames: []
@@ -85,8 +83,8 @@
             save() {
                 this.$refs.userForm.validate(async (valid)=>{
                     if(valid) {
-                        if(!this.userModel.permissions) {
-                            this.userModel.permissions = [];
+                        if(!this.userModel.roleNames) {
+                            this.userModel.roleNames = [];
                         }
                         await this.$store.dispatch({
                             type:'user/update',

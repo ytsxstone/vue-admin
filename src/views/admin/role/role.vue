@@ -12,11 +12,11 @@
                         <i-button type="primary" icon="ios-search" @click="getPageData">搜索</i-button>
                     </Row>
                     <Row class="inline-block-right">
-                        <i-button type="primary" @click="create"><Icon type="plus"></Icon> 添加角色</i-button>
+                        <i-button type="primary" :disabled="!permissions.create" @click="create"><Icon type="plus"></Icon> 添加角色</i-button>
                     </Row>
                 </div>
                 <div class="margin-top-10">
-                    <Table :loading="loading" :columns="columns" no-data-text="暂无数据" border :data="list"></Table>
+                    <Table :loading="loading" :columns="columns" border :data="list"></Table>
                     <Page  show-sizer class-name="fengpage" :total="totalCount" class="margin-top-10" @on-change="pageChange" @on-page-size-change="pageSizeChange" :page-size="pageSize" :current="currentPage"></Page>
                 </div>
             </div>
@@ -29,6 +29,7 @@
 <script>
 import roleCreate from './role-create.vue';
 import roleEdit from './role-edit.vue';
+import Util from '@/libs/util.js';
 
 export default {
     name: 'role',
@@ -41,6 +42,11 @@ export default {
             keyWord: '',
             createModalShow: false,
             editModalShow: false,
+            permissions: {
+                create: Util.abp.auth.isGranted('Pages.SystemManagement.Roles.Create'),
+                edit: Util.abp.auth.isGranted('Pages.SystemManagement.Roles.Edit'),
+                delete: Util.abp.auth.isGranted('Pages.SystemManagement.Roles.Delete'),
+            },
             columns: [{
                 title: '角色名称',
                 key: 'name'
@@ -65,7 +71,8 @@ export default {
                             props:{
                                 type:'primary',
                                 size:'small',
-                                icon:'android-create'
+                                icon:'android-create',
+                                disabled:!this.permissions.edit
                             },
                             style:{
                                 marginRight:'5px'
@@ -81,7 +88,8 @@ export default {
                             props:{
                                 type:'error',
                                 size:'small',
-                                icon:'android-delete'
+                                icon:'android-delete',
+                                disabled:this.permissions.delete?(params.row.isStatic?true:false):true
                             },
                             on:{
                                 click:async ()=>{

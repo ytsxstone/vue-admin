@@ -1,13 +1,12 @@
 import Vue from 'vue';
 import axios from 'axios';
-import Util from './util';
 import appConfig from './appConfig';
 import sweetAlert from "./sweetAlert";
 
 // 创建axios实例
 const ajax = axios.create({
     baseURL: appConfig.remoteServiceBaseUrl,
-    timeout: 9000
+    timeout: 15000
 });
 
 // 请求拦截器
@@ -31,10 +30,10 @@ ajax.interceptors.response.use((response)=>{
         sweetAlert.error(error.response.data.error.message, error.response.data.error.details);
     }
     else if(!!error.response&&!!error.response.data.error&&!!error.response.data.error.message) {
-        sweetAlert.error(window.abp.localization.localize("LoginFailed"), error.response.data.error.message);
+        sweetAlert.error('', error.response.data.error.message);
     }
     else if(!error.response) {
-        sweetAlert.error('Error', window.abp.localization.localize('UnknownError'));
+        sweetAlert.error('', 'UnknownError');
     }
 
     // 关闭消息框
