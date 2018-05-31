@@ -57,8 +57,8 @@ export const appRouter = [
         meta: { title: '系统设置' },
         component: main,
         children: [
-            { path: 'user', name: 'user', permission:'Pages.Administration.Users', meta: { title: '用户管理' }, component: () => import('@/views/admin/user/user.vue') },
-            { path: 'role', name: 'role', permission:'Pages.Administration.Roles', meta: { title: '角色管理' }, component: () => import('@/views/admin/role/role.vue') }
+            { path: 'user', name: 'user', permission:'Pages.SystemManagement.Users', meta: { title: '用户管理' }, component: () => import('@/views/admin/user/user.vue') },
+            { path: 'role', name: 'role', permission:'Pages.SystemManagement.Roles', meta: { title: '角色管理' }, component: () => import('@/views/admin/role/role.vue') }
         ]
     },
     {
