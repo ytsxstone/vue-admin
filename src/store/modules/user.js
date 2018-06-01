@@ -50,7 +50,13 @@ const user = {
         },
         async changeLanguage(context, payload) {
             await Ajax.post('/api/services/app/User/ChangeLanguage', payload.data);
-        }
+        },
+        async updateUserInfo(context, payload) {
+            await Ajax.put('/api/services/app/User/UpdateUserInfo', payload.data);
+        },
+        async changePassword(context, payload) {
+            await Ajax.post('/api/services/app/User/ChangePassword', payload.data);
+        },
     }
 };
 

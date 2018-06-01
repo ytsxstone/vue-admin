@@ -4,6 +4,25 @@
     </div>
 </template>
 
+<script>
+export default {
+    data () {
+        return {
+            //
+        };
+    },
+    mounted () {
+        //
+    },
+    beforeDestroy () {
+        //
+    },
+    methods: {
+        //
+    }
+};
+</script>
+
 <style>
     html,body{
         width: 100%;

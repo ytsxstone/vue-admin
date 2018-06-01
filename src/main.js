@@ -36,11 +36,12 @@ Ajax.get('/AbpUserConfiguration/GetAll').then(data=>{
         router,
         store,
         render: h => h(App),
-        async mounted () {
+        mounted () {
             this.currentPageName = this.$route.name;
-            await this.$store.dispatch({
+            this.$store.dispatch({
                 type: 'session/init'
             });
+            this.$store.commit('app/setOpenedList');
             this.$store.commit('app/initCachepage');
             this.$store.commit('app/updateMenulist');
         },

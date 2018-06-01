@@ -41,7 +41,7 @@
                                     <Icon type="arrow-down-b"></Icon>
                                 </a>
                                 <DropdownMenu slot="list">
-                                    <DropdownItem name="ownSpace">个人中心</DropdownItem>
+                                    <DropdownItem name="ownspace">个人中心</DropdownItem>
                                     <DropdownItem name="loginout" divided>退出登录</DropdownItem>
                                 </DropdownMenu>
                             </Dropdown>
@@ -120,7 +120,7 @@ export default {
             this.shrink = !this.shrink;
         },
         handleClickUserDropdown (name) {
-            if (name === 'ownSpace') {
+            if (name === 'ownspace') {
                 Util.openNewPage(this, 'ownspace');
                 this.$router.push({
                     name: 'ownspace'

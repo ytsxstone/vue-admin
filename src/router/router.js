@@ -66,10 +66,10 @@ export const appRouter = [
         name: 'point',
         icon: 'android-share-alt',
         permission: '',
-        meta: { title: '积分管理' },
+        meta: { title: '积分设置' },
         component: main,
         children: [
-            { path: 'rank', name: 'rank', permission:'Pages.PointManagement.PointRanks', meta: { title: '积分等级' }, component: () => import('@/views/point/rank/rank.vue') },
+            { path: 'rank', name: 'rank', permission:'Pages.PointManagement.PointRanks', meta: { title: '积分体系' }, component: () => import('@/views/point/rank/rank.vue') },
             { path: 'rule', name: 'rule', permission:'Pages.PointManagement.PointRules', meta: { title: '积分规则' }, component: () => import('@/views/point/rule/rule.vue') }
         ]
     },

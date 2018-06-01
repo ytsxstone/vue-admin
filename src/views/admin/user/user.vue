@@ -21,7 +21,7 @@
                 </div>
             </div>
         </Card>
-        <user-create v-model="createModalShow"  @save-success="getPageData"></user-create>
+        <user-create v-model="createModalShow" @save-success="getPageData"></user-create>
         <user-edit v-model="editModalShow" @save-success="getPageData"></user-edit>
     </div>
 </template>
@@ -48,7 +48,7 @@ export default {
                 delete: Util.abp.auth.isGranted('Pages.SystemManagement.Users.Delete'),
             },
             columns: [{
-                title: '帐号',
+                title: '用户名',
                 key: 'userName'
             },{
                 title: '姓名',

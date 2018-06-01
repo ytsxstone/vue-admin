@@ -3,6 +3,7 @@
         <Modal
             title="添加角色"
             :value="value"
+            :mask-closable="false"
             @on-ok="save"
             @on-visible-change="visibleChange"
          >
@@ -37,60 +38,60 @@
 </template>
 
 <script>
-    export default {
-        data () {
-            return {
-                roleModel: {
-                    name: '',
-                    displayName: '',
-                    description: '',
-                    isStatic: false,
-                    permissions: []
-                },
-                rules: {
-                    name: [{ required: true, message: '名称不能为空', trigger: 'blur' }],
-                    displayName: [{ required: true, message: '显示名称不能为空', trigger: 'blur' }]
-                }
-            };
-        },
-        props: {
-            value: {
-                type: Boolean,
-                default: false
+export default {
+    data () {
+        return {
+            roleModel: {
+                name: '',
+                displayName: '',
+                description: '',
+                isStatic: false,
+                permissions: []
             },
-        },
-        computed: {
-            permissions() {
-                return this.$store.state.role.permissions;
+            rules: {
+                name: [{ required: true, message: '名称不能为空', trigger: 'blur' }],
+                displayName: [{ required: true, message: '显示名称不能为空', trigger: 'blur' }]
             }
+        };
+    },
+    props: {
+        value: {
+            type: Boolean,
+            default: false
         },
-        methods: {
-            visibleChange(value) {
-                if(!value) {
-                    this.$refs.roleForm.resetFields();
-                    this.$emit('input', value);
-                }
-            },
-            save() {
-                this.$refs.roleForm.validate(async (valid)=>{
-                    if(valid) {
-                        if(!this.roleModel.permissions) {
-                            this.roleModel.permissions = [];
-                        }
-                        await this.$store.dispatch({
-                            type:'role/create',
-                            data:this.roleModel
-                        });
-                        this.$refs.roleForm.resetFields();
-                        this.$emit('save-success');
-                        this.$emit('input', false);
-                    }
-                });
-            },
-            cancel() {
+    },
+    computed: {
+        permissions() {
+            return this.$store.state.role.permissions;
+        }
+    },
+    methods: {
+        visibleChange(value) {
+            if(!value) {
                 this.$refs.roleForm.resetFields();
-                this.$emit('input', false);
+                this.$emit('input', value);
             }
+        },
+        save() {
+            this.$refs.roleForm.validate(async (valid)=>{
+                if(valid) {
+                    if(!this.roleModel.permissions) {
+                        this.roleModel.permissions = [];
+                    }
+                    await this.$store.dispatch({
+                        type:'role/create',
+                        data:this.roleModel
+                    });
+                    this.$refs.roleForm.resetFields();
+                    this.$emit('save-success');
+                    this.$emit('input', false);
+                }
+            });
+        },
+        cancel() {
+            this.$refs.roleForm.resetFields();
+            this.$emit('input', false);
         }
     }
+}
 </script>
