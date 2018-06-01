@@ -26,7 +26,10 @@ let vm = new Vue({});
 ajax.interceptors.response.use((response)=>{    
     return response;
 },(error)=>{
-    if(!!error.response&&!!error.response.data.error&&!!error.response.data.error.message&&error.response.data.error.details) {
+    if(error.response&&error.response.status==404) {
+        sweetAlert.error('404', '在服务器上找不到您请求的资源');
+    }
+    else if(!!error.response&&!!error.response.data.error&&!!error.response.data.error.message&&error.response.data.error.details) {
         sweetAlert.error(error.response.data.error.message, error.response.data.error.details);
     }
     else if(!!error.response&&!!error.response.data.error&&!!error.response.data.error.message) {
