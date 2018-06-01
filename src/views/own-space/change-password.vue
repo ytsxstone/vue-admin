@@ -8,7 +8,7 @@
             @on-ok="save"
             @on-visible-change="visibleChange"
          >
-            <Form ref="editPasswordForm" v-model="init" :model="editPasswordModel" :label-width="100" label-position="right" :rules="rules">
+            <Form ref="editPasswordForm" :model="editPasswordModel" :label-width="100" label-position="right" :rules="rules">
                 <FormItem label="原密码" prop="oldPassword">
                     <Input type="password" v-model="editPasswordModel.oldPassword" placeholder="请输入现在使用的密码" ></Input>
                 </FormItem>
@@ -20,6 +20,7 @@
                 </FormItem>
             </Form>
             <div slot="footer">
+                <input type="hidden" v-model="getUserId" />
                 <Button @click="cancel">取消</Button>
                 <Button type="primary" @click="save">保存</Button>
             </div>
@@ -74,7 +75,7 @@ export default {
         },
     },
     computed: {
-        init() {
+        getUserId() {
             if(this.$store.state.session.user) {
                 this.editPasswordModel.id = this.$store.state.session.user.id;    
             }

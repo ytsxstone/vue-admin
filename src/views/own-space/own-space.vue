@@ -6,7 +6,7 @@
                 个人信息
             </p>
             <div>
-                <Form ref="userForm" v-model="init" :model="userModel" :label-width="100" label-position="right" :rules="rules">
+                <Form ref="userForm" :model="userModel" :label-width="100" label-position="right" :rules="rules">
                     <FormItem label="姓名" prop="name">
                         <div style="display:inline-block;width:250px;">
                             <Input v-model="userModel.name"></Input>
@@ -16,6 +16,8 @@
                         <Button type="dashed" size="small" @click="showEditPassword">修改密码</Button>
                     </FormItem>
                     <div style="padding-left:50px;">
+                        <input type="hidden" v-model="getUserId" />
+                        <input type="hidden" v-model="getName" />
                         <Button @click="cancel">取消</Button>
                         <Button type="primary" @click="save">保存</Button>
                     </div>
@@ -49,14 +51,21 @@ export default {
         };
     },
     computed: {
-        init() {
+        getName() {
             if(this.$store.state.session.user) {
-                this.userModel.id = this.$store.state.session.user.id;    
                 this.userModel.name = this.$store.state.session.user.name;
             }
             else {
-                this.userModel.id = 0;
                 this.userModel.name = '';
+            }
+            return this.userModel.name;
+        },
+        getUserId() {
+            if(this.$store.state.session.user) {
+                this.userModel.id = this.$store.state.session.user.id;    
+            }
+            else {
+                this.userModel.id = 0;
             }
             return this.userModel.id;
         }
@@ -89,7 +98,7 @@ export default {
                         type:'user/updateUserInfo',
                         data:this.userModel
                     });
-                    this.$refs.editPasswordForm.resetFields();
+                    this.$refs.userForm.resetFields();
                     this.$emit('input', false);
                 }
             });
