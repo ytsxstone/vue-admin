@@ -169,7 +169,7 @@ export default {
     },
     async created() {
         await this.$store.dispatch({
-            type:'role/getAllPermissions'
+            type:'role/getTreePermissions'
         });
     }
 };

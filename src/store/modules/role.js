@@ -35,8 +35,8 @@ const role = {
             let response = await Ajax.get('/api/services/app/Role/Get?Id=' + payload.id);
             return response.data.result;
         },
-        async getAllPermissions(context) {
-            let response = await Ajax.get('/api/services/app/Role/getAllPermissions');
+        async getTreePermissions(context) {
+            let response = await Ajax.get('/api/services/app/Role/GetTreePermissions');
             context.state.permissions = response.data.result.items;
         },
         async create(context, payload) {

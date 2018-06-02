@@ -22,9 +22,7 @@
                     </TabPane>
                     <TabPane label="权限信息" name="permission">
                         <FormItem prop="permissions">
-                            <CheckboxGroup v-model="roleModel.permissions">
-                                <Checkbox :label="permission.name" v-for="permission in permissions" :key="permission.name"><span>{{permission.displayName}}</span></Checkbox>
-                            </CheckboxGroup>
+                            <Tree :data="permissions" show-checkbox ref="tree"></Tree>
                         </FormItem>
                     </TabPane>
                 </Tabs>
@@ -75,9 +73,10 @@ export default {
         save() {
             this.$refs.roleForm.validate(async (valid)=>{
                 if(valid) {
-                    if(!this.roleModel.permissions) {
-                        this.roleModel.permissions = [];
-                    }
+                    //获取选中的权限
+                    var permissionNames = this.$refs.tree.getCheckedNodes();
+                    this.roleModel.permissions = permissionNames;
+                    console.log(permissionNames);
                     let response = await this.$store.dispatch({
                         type:'role/create',
                         data:this.roleModel

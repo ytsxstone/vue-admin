@@ -54,7 +54,7 @@ export const appRouter = [
         name: 'admin',
         icon: 'key',
         permission: '',
-        meta: { title: '系统设置' },
+        meta: { title: '系统管理' },
         component: main,
         children: [
             { path: 'user', name: 'user', permission:'Pages.SystemManagement.Users', meta: { title: '用户管理' }, component: () => import('@/views/admin/user/user.vue') },
