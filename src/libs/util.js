@@ -59,7 +59,7 @@ util.setCurrentPath = function (vm, name) {
         if (item.children.length === 1) {
             if (item.children[0].name === name) {
                 title = util.handleTitle(vm, item);
-                if (item.name === 'otherRouter') {
+                if (item.name === 'main') {
                     isOtherRouter = true;
                 }
             }
@@ -67,7 +67,7 @@ util.setCurrentPath = function (vm, name) {
             item.children.forEach(child => {
                 if (child.name === name) {
                     title = util.handleTitle(vm, child);
-                    if (item.name === 'otherRouter') {
+                    if (item.name === 'main') {
                         isOtherRouter = true;
                     }
                 }

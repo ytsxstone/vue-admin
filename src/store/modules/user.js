@@ -40,22 +40,22 @@ const user = {
             context.state.roles = response.data.result.items;
         },
         async create(context, payload) {
-            await Ajax.post('/api/services/app/User/Create', payload.data);
+            return await Ajax.post('/api/services/app/User/Create', payload.data);
         },
         async update(context, payload) {
-            await Ajax.put('/api/services/app/User/Update', payload.data);
+            return await Ajax.put('/api/services/app/User/Update', payload.data);
         },
         async delete(context, payload) {
-            await Ajax.delete('/api/services/app/User/Delete?Id=' + payload.data.id);
+            return await Ajax.delete('/api/services/app/User/Delete?Id=' + payload.data.id);
         },
         async changeLanguage(context, payload) {
-            await Ajax.post('/api/services/app/User/ChangeLanguage', payload.data);
+            return await Ajax.post('/api/services/app/User/ChangeLanguage', payload.data);
         },
         async updateUserInfo(context, payload) {
-            await Ajax.put('/api/services/app/User/UpdateUserInfo', payload.data);
+            return await Ajax.put('/api/services/app/User/UpdateUserInfo', payload.data);
         },
         async changePassword(context, payload) {
-            await Ajax.post('/api/services/app/User/ChangePassword', payload.data);
+            return await Ajax.post('/api/services/app/User/ChangePassword', payload.data);
         },
     }
 };

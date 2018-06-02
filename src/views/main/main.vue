@@ -126,9 +126,7 @@ export default {
                     name: 'ownspace'
                 });
             } else if (name === 'loginout') {
-                this.$store.commit('app/logout', this);
-                this.$store.commit('app/clearAllTags');
-                this.$store.commit('app/clearOpenedSubmenu');
+                this.$store.commit('app/logout');
                 Util.abp.auth.clearToken();
                 location.reload();
             }

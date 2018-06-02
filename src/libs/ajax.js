@@ -27,7 +27,10 @@ ajax.interceptors.response.use((response)=>{
     return response;
 },(error)=>{
     if(error.response&&error.response.status==404) {
-        sweetAlert.error('404', '在服务器上找不到您请求的资源');
+        sweetAlert.error('404-Not found', '您请求的资源不存在!');
+    }
+    else if(error.response&&error.response.status==403) {
+        sweetAlert.error('403-Forbidden', '您没有权限进行此操作!');
     }
     else if(!!error.response&&!!error.response.data.error&&!!error.response.data.error.message&&error.response.data.error.details) {
         sweetAlert.error(error.response.data.error.message, error.response.data.error.details);

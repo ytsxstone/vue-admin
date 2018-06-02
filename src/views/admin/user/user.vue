@@ -117,10 +117,13 @@ export default {
                                         okText:'确定',
                                         cancelText:'取消',
                                         onOk:async()=>{
-                                            await this.$store.dispatch({
+                                            let response = await this.$store.dispatch({
                                                 type:'user/delete',
                                                 data:params.row
-                                            })
+                                            });
+                                            if(response&&response.data&&response.data.success) {
+                                                this.$Message.success('删除成功');
+                                            }
                                             await this.getPageData();
                                         }
                                     });

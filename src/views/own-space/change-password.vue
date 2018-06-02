@@ -20,7 +20,6 @@
                 </FormItem>
             </Form>
             <div slot="footer">
-                <input type="hidden" v-model="getUserId" />
                 <Button @click="cancel">取消</Button>
                 <Button type="primary" @click="save">保存</Button>
             </div>
@@ -74,17 +73,6 @@ export default {
             default: false
         },
     },
-    computed: {
-        getUserId() {
-            if(this.$store.state.session.user) {
-                this.editPasswordModel.id = this.$store.state.session.user.id;    
-            }
-            else {
-                this.editPasswordModel.id = 0;
-            }
-            return this.editPasswordModel.id;
-        }
-    },
     methods: {
         visibleChange(value) {
             if(!value) {
@@ -95,10 +83,13 @@ export default {
         save() {
             this.$refs.editPasswordForm.validate(async (valid)=>{
                 if(valid) {
-                    await this.$store.dispatch({
+                    let response = await this.$store.dispatch({
                         type:'user/changePassword',
                         data:this.editPasswordModel
                     });
+                    if(response&&response.data&&response.data.success) {
+                        this.$Message.success('修改成功');
+                    }
                     this.$refs.editPasswordForm.resetFields();
                     this.$emit('save-success');
                     this.$emit('input', false);
@@ -108,7 +99,16 @@ export default {
         cancel() {
             this.$refs.editPasswordForm.resetFields();
             this.$emit('input', false);
+        },
+        init() {
+            var currentUser = this.$store.getters['session/getCurrentUser'];
+            if(currentUser) {
+                this.editPasswordModel.id = currentUser.id;
+            }
         }
+    },
+    created() {
+        this.init();
     }
 }
 </script>

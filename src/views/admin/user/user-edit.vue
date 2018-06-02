@@ -87,10 +87,13 @@ export default {
                     if(!this.userModel.roleNames) {
                         this.userModel.roleNames = [];
                     }
-                    await this.$store.dispatch({
+                    let response = await this.$store.dispatch({
                         type:'user/update',
                         data:this.userModel
                     });
+                    if(response&&response.data&&response.data.success) {
+                        this.$Message.success('修改成功');
+                    }
                     this.$refs.userForm.resetFields();
                     this.$emit('save-success');
                     this.$emit('input', false);

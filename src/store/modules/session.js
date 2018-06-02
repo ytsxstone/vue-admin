@@ -8,6 +8,14 @@ const session = {
         user: null,
         tenant: null
     },
+    getters:{
+        getCurrentUser: state => {
+            if(!state.user) {
+                state.user = JSON.parse(localStorage.currentUser)
+            }
+            return state.user;
+        }
+    },
     mutations: {
         //
     },
@@ -21,6 +29,8 @@ const session = {
             content.state.application = response.data.result.application;
             content.state.user = response.data.result.user;
             content.state.tenant = response.data.result.tenant;
+            //前端持久化数据
+            localStorage.currentUser = JSON.stringify(response.data.result.user);
         }
     }
 };

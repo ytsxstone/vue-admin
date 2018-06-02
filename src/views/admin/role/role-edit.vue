@@ -83,10 +83,16 @@ export default {
                     if(!this.roleModel.permissions) {
                         this.roleModel.permissions = [];
                     }
-                    await this.$store.dispatch({
+                    let response = await this.$store.dispatch({
                         type:'role/update',
                         data:this.roleModel
                     });
+                    if(response&&response.data&&response.data.success) {
+                        this.$Message.success('修改成功');
+                        await this.$store.dispatch({
+                            type:'user/getRoles'
+                        });
+                    }
                     this.$refs.roleForm.resetFields();
                     this.$emit('save-success');
                     this.$emit('input', false);

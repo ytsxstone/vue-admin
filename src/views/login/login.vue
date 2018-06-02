@@ -68,6 +68,10 @@ export default {
                 }
             });      
         }
+    },
+    created() {
+        // 清空持久化的数据
+        this.$store.commit('app/logout');
     }
 };
 </script>

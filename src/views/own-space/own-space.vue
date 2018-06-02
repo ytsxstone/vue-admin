@@ -6,7 +6,7 @@
                 个人信息
             </p>
             <div>
-                <Form ref="userForm" :model="userModel" :label-width="100" label-position="right" :rules="rules">
+                <Form ref="userForm" :model="userModel" :label-width="100" label-position="right" :rules="rules" onsubmit="return false;">
                     <FormItem label="姓名" prop="name">
                         <div style="display:inline-block;width:250px;">
                             <Input v-model="userModel.name"></Input>
@@ -16,8 +16,6 @@
                         <Button type="dashed" size="small" @click="showEditPassword">修改密码</Button>
                     </FormItem>
                     <div style="padding-left:50px;">
-                        <input type="hidden" v-model="getUserId" />
-                        <input type="hidden" v-model="getName" />
                         <Button @click="cancel">取消</Button>
                         <Button type="primary" @click="save">保存</Button>
                     </div>
@@ -50,26 +48,6 @@ export default {
             }
         };
     },
-    computed: {
-        getName() {
-            if(this.$store.state.session.user) {
-                this.userModel.name = this.$store.state.session.user.name;
-            }
-            else {
-                this.userModel.name = '';
-            }
-            return this.userModel.name;
-        },
-        getUserId() {
-            if(this.$store.state.session.user) {
-                this.userModel.id = this.$store.state.session.user.id;    
-            }
-            else {
-                this.userModel.id = 0;
-            }
-            return this.userModel.id;
-        }
-    },
     methods: {
         showEditPassword () {
             this.editPasswordModalShow = true;
@@ -77,6 +55,7 @@ export default {
         cancel () {
             this.$refs.userForm.resetFields();
             this.$emit('input', false);
+            this.init();
 
             // 关闭标签页
             this.$store.commit('app/removeTag', 'ownspace');
@@ -94,15 +73,29 @@ export default {
         save () {
             this.$refs.userForm.validate(async (valid) => {
                 if (valid) {
-                    await this.$store.dispatch({
+                    let response = await this.$store.dispatch({
                         type:'user/updateUserInfo',
                         data:this.userModel
                     });
-                    this.$refs.userForm.resetFields();
-                    this.$emit('input', false);
+                    if(response&&response.data&&response.data.success) {
+                        this.$Message.success('修改成功');
+                        await this.$store.dispatch({
+                            type: 'session/init'
+                        });
+                    }
                 }
             });
+        },
+        init() {
+            var currentUser = this.$store.getters['session/getCurrentUser'];
+            if(currentUser) {
+                this.userModel.id = currentUser.id;
+                this.userModel.name = currentUser.name;
+            }
         }
+    },
+    created() {
+        this.init();
     }
 };
 </script>

@@ -40,13 +40,13 @@ const role = {
             context.state.permissions = response.data.result.items;
         },
         async create(context, payload) {
-            await Ajax.post('/api/services/app/Role/Create', payload.data);
+            return await Ajax.post('/api/services/app/Role/Create', payload.data);
         },
         async update(context, payload) {
-            await Ajax.put('/api/services/app/Role/Update', payload.data);
+            return await Ajax.put('/api/services/app/Role/Update', payload.data);
         },
         async delete(context, payload) {
-            await Ajax.delete('/api/services/app/Role/Delete?Id=' + payload.data.id);
+            return await Ajax.delete('/api/services/app/Role/Delete?Id=' + payload.data.id);
         }
     }
 };
