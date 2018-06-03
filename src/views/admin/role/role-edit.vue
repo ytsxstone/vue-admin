@@ -22,9 +22,7 @@
                     </TabPane>
                     <TabPane label="权限信息" name="permission">
                         <FormItem prop="permissions">
-                            <CheckboxGroup v-model="roleModel.permissions">
-                                <Checkbox :label="permission.name" v-for="permission in permissions" :key="permission.name"><span>{{permission.displayName}}</span></Checkbox>
-                            </CheckboxGroup>
+                            <Tree :data="permissions" show-checkbox ref="tree"></Tree>
                         </FormItem>
                     </TabPane>
                 </Tabs>
@@ -38,6 +36,7 @@
 </template>
 
 <script>
+import jQuery from 'jquery';
 import Util from '@/libs/util.js';
 
 export default {
@@ -80,9 +79,20 @@ export default {
         save() {
             this.$refs.roleForm.validate(async (valid)=>{
                 if(valid) {
-                    if(!this.roleModel.permissions) {
-                        this.roleModel.permissions = [];
+                    // 获取选中的节点
+                    var permissionArray = [];
+                    var checkData = this.$refs.tree.flatState.filter(obj => obj.node.checked || obj.node.indeterminate).map(obj => obj.node)
+                    checkData.forEach(element => {
+                        if(jQuery.inArray(element.name, permissionArray) < 0) {
+                            permissionArray.push(element.name);    
+                        }
+                    });
+                    if(permissionArray.length <= 0) {
+                        this.$Message.error('请勾选角色的权限信息');
+                        return false;
                     }
+                    this.roleModel.permissions = permissionArray;
+                    
                     let response = await this.$store.dispatch({
                         type:'role/update',
                         data:this.roleModel

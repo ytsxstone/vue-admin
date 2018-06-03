@@ -36,6 +36,8 @@
 </template>
 
 <script>
+import jQuery from 'jquery';
+
 export default {
     data () {
         return {
@@ -73,10 +75,20 @@ export default {
         save() {
             this.$refs.roleForm.validate(async (valid)=>{
                 if(valid) {
-                    //获取选中的权限
-                    var permissionNames = this.$refs.tree.getCheckedNodes();
-                    this.roleModel.permissions = permissionNames;
-                    console.log(permissionNames);
+                    // 获取选中的节点
+                    var permissionArray = [];
+                    var checkData = this.$refs.tree.flatState.filter(obj => obj.node.checked || obj.node.indeterminate).map(obj => obj.node)
+                    checkData.forEach(element => {
+                        if(jQuery.inArray(element.name, permissionArray) < 0) {
+                            permissionArray.push(element.name);    
+                        }
+                    });
+                    if(permissionArray.length <= 0) {
+                        this.$Message.error('请勾选角色的权限信息');
+                        return false;
+                    }
+                    this.roleModel.permissions = permissionArray;
+
                     let response = await this.$store.dispatch({
                         type:'role/create',
                         data:this.roleModel
