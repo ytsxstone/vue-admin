@@ -70,6 +70,9 @@ export default {
             if(!value) {
                 this.$refs.roleForm.resetFields();
                 this.$emit('input', value);
+                if(this.$refs.tree.getCheckedNodes().length > 0) {
+                    this.$refs.tree.handleCheck({checked:false, nodeKey:0});
+                }
             }
         },
         save() {
