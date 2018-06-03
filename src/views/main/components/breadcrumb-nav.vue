@@ -4,7 +4,7 @@
             v-for="item in currentPath" 
             :href="item.path" 
             :key="item.name"
-        >{{ itemTitle(item) }}</BreadcrumbItem>
+        ><Icon type="ios-home" v-if="item.meta.hasOwnProperty('icon')"></Icon>{{ itemTitle(item) }}</BreadcrumbItem>
     </Breadcrumb>
 </template>
 

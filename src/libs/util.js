@@ -80,7 +80,7 @@ util.setCurrentPath = function (vm, name) {
     if (name === 'home') {
         currentPathArr = [
             {
-                meta: { title: util.handleTitle(vm, util.getRouterObjByName(vm.$store.state.app.routers, 'home')) },
+                meta: { title: util.handleTitle(vm, util.getRouterObjByName(vm.$store.state.app.routers, 'home')), icon: 'ios-home' },
                 path: '/main/home',
                 name: 'home'
             }
@@ -88,7 +88,7 @@ util.setCurrentPath = function (vm, name) {
     } else if ((name.indexOf('index') >= 0 || isOtherRouter) && name !== 'home') {
         currentPathArr = [
             {
-                meta: { title: util.handleTitle(vm, util.getRouterObjByName(vm.$store.state.app.routers, 'home')) },
+                meta: { title: util.handleTitle(vm, util.getRouterObjByName(vm.$store.state.app.routers, 'home')), icon: 'ios-home' },
                 path: '/main/home',
                 name: 'home'
             },
@@ -118,7 +118,7 @@ util.setCurrentPath = function (vm, name) {
         if (currentPathObj.children.length <= 1 && currentPathObj.name === 'home') {
             currentPathArr = [
                 {
-                    meta: { title: '首页' },
+                    meta: { title: '首页', icon: 'ios-home' },
                     path: '/main/home',
                     name: 'home'
                 }
@@ -126,7 +126,7 @@ util.setCurrentPath = function (vm, name) {
         } else if (currentPathObj.children.length <= 1 && currentPathObj.name !== 'home') {
             currentPathArr = [
                 {
-                    meta: { title: '首页' },
+                    meta: { title: '首页', icon: 'ios-home' },
                     path: '/main/home',
                     name: 'home'
                 },
@@ -142,7 +142,7 @@ util.setCurrentPath = function (vm, name) {
             })[0];
             currentPathArr = [
                 {
-                    meta: { title: '首页' },
+                    meta: { title: '首页', icon: 'ios-home' },
                     path: '/main/home',
                     name: 'home'
                 },
