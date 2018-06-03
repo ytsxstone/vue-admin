@@ -20,6 +20,9 @@ const role = {
         },
         edit(state, role) {
             state.editRole = role;
+        },
+        setPermissions(state, permissions) {
+            state.permissions = permissions;
         }
     },
     actions: {

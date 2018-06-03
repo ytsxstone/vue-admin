@@ -266,4 +266,29 @@ util.extend = function(...args) {
     return target;
 }
 
+// 重置权限树
+util.resetPermissionTree = function(permissions) {
+    let resData = [];
+
+    permissions.forEach((item) => {
+        let children;
+        if(item.children && item.children.length > 0)
+        {
+            children = this.resetPermissionTree(item.children); 
+        }
+        let model = {
+            title: item.title,
+            name: item.name,
+            level: item.level,
+            checked: false,
+            expand: item.level > 2 ? false : true,
+            children: (children==undefined || children.Count <= 0 ? null : children)
+        };
+        
+        resData.push(model);
+    });
+
+    return resData;
+}
+
 export default util;
