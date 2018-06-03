@@ -52,7 +52,7 @@ export const appRouter = [
     {
         path: '/admin',
         name: 'admin',
-        icon: 'key',
+        icon: 'android-settings',
         permission: '',
         meta: { title: '系统管理' },
         component: main,

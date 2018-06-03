@@ -80,6 +80,10 @@ export default {
             }
             else {
                 this.roleModel = Util.extend(true, {}, this.$store.state.role.editRole);
+                if(this.roleModel.permissions.length > 0) {
+                    var treeData = Util.checkedPermissionTree(this.permissions, this.roleModel.permissions);
+                    this.$store.commit('role/setPermissions', treeData);
+                }
             }
         },
         save() {

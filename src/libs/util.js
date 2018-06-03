@@ -1,3 +1,5 @@
+import jQuery from 'jquery';
+
 let util = {
 
 };
@@ -282,7 +284,45 @@ util.resetPermissionTree = function(permissions) {
             level: item.level,
             checked: false,
             expand: item.level > 2 ? false : true,
-            children: (children==undefined || children.Count <= 0 ? null : children)
+            children: (children == undefined || children == null || children.Count <= 0 ? null : children)
+        };
+        
+        resData.push(model);
+    });
+
+    return resData;
+}
+
+// 编辑默认选中
+util.checkedPermissionTree = function(permissions, checkedNodes) {
+    let resData = [];
+
+    permissions.forEach((item) => {
+        let children, checkState;
+        if(item.children && item.children.length > 0)
+        {
+            children = this.checkedPermissionTree(item.children, checkedNodes); 
+        }
+        // 最末级别判断
+        if(children == undefined || children == null || children.Count <= 0) {
+            if(jQuery.inArray(item.name, checkedNodes) >= 0) {
+                checkState = true
+            }
+            else {
+                checkState = false;
+            }    
+        }
+        else {
+            checkState = false;
+        }
+
+        let model = {
+            title: item.title,
+            name: item.name,
+            level: item.level,
+            checked: checkState,
+            expand: item.level > 2 ? false : true,
+            children: (children == undefined || children == null || children.Count <= 0 ? null : children)
         };
         
         resData.push(model);
