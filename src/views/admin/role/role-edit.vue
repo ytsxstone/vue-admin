@@ -88,8 +88,12 @@ export default {
                         }
                     }
                     else {
-                        that.$Message.error('数据加载失败');
+                        that.$Message.error('获取编辑数据失败');
                     }
+                }).catch(function(error) {
+                    setTimeout(() => {
+                        that.$emit('input', false);
+                    }, 3000);
                 });
             }
         },

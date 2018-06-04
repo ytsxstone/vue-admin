@@ -8,7 +8,7 @@ const user = {
         pageSize: 10,
         list: [],
         loading: false,
-        editUser: null,
+        editUserId: 0,
         roles: []
     },
     mutations: {
@@ -18,8 +18,8 @@ const user = {
         setPageSize(state, pageSize) {
             state.pageSize = pageSize;
         },
-        edit(state, user) {
-            state.editUser = user;
+        edit(state, id) {
+            state.editUserId = id;
         }
     },
     actions: {
@@ -31,13 +31,12 @@ const user = {
             context.state.totalCount = page.totalCount;
             context.state.list = page.items;
         },
-        async get(context, payload) {
-            let response = await Ajax.get('/api/services/app/User/Get?Id=' + payload.id);
-            return response.data.result;
-        },
         async getRoles(context) {
             let response = await Ajax.get('/api/services/app/User/GetRoles');
             context.state.roles = response.data.result.items;
+        },
+        async get(context, payload) {
+            return await Ajax.get('/api/services/app/User/Get?Id=' + payload.id);
         },
         async create(context, payload) {
             return await Ajax.post('/api/services/app/User/Create', payload.data);

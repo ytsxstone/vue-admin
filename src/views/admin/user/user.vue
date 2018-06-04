@@ -97,7 +97,7 @@ export default {
                             },
                             on:{
                                 click:()=>{
-                                    this.$store.commit('user/edit',params.row);
+                                    this.$store.commit('user/edit',params.row.id);
                                     this.edit();
                                 }
                             }
