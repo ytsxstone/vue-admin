@@ -62,6 +62,31 @@ export const appRouter = [
         ]
     },
     {
+        path: '/Order',
+        name: 'order',
+        icon: 'happy-outline',
+        permission: '',
+        meta: { title: '订单管理' },
+        component: main,
+        children: [
+            { path: 'order', name: 'order', permission: 'Pages.OrderManagement.Orders', meta: { title: '订单列表' }, component: () => import('@/views/order/order.vue') },
+            { path: 'comments', name: 'comments', permission: 'Pages.OrderManagement.Comments', meta: { title: '评论管理' }, component: () => import('@/views/order/comments.vue') }
+        ]
+    },
+    {
+        path: '/product',
+        name: 'product',
+        icon: 'ios-analytics',
+        permission: '',
+        meta: { title: '商品管理' },
+        component: main,
+        children: [
+            { path: 'category', name: 'category', permission: 'Pages.ProductManagement.Categorys', meta: { title: '商品分类' }, component: () => import('@/views/product/category.vue') },
+            { path: 'analysis', name: 'analysis', permission: 'Pages.ProductManagement.Analysis', meta: { title: '商品分析' }, component: () => import('@/views/product/analysis.vue') },
+            { path: 'product', name: 'product', permission: 'Pages.ProductManagement.Products', meta: { title: '商品列表' }, component: () => import('@/views/product/product.vue') }
+        ]
+    },
+    {
         path: '/point',
         name: 'point',
         icon: 'android-share-alt',

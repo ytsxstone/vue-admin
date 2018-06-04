@@ -8,7 +8,7 @@ const role = {
         pageSize: 10,
         list: [],
         loading: false,
-        editRole: null,
+        editRoleId: 0,
         permissions: []
     },
     mutations: {
@@ -18,8 +18,8 @@ const role = {
         setPageSize(state, pageSize) {
             state.pageSize = pageSize;
         },
-        edit(state, role) {
-            state.editRole = role;
+        edit(state, id) {
+            state.editRoleId = id;
         },
         setPermissions(state, permissions) {
             state.permissions = permissions;
@@ -34,13 +34,15 @@ const role = {
             context.state.totalCount = page.totalCount;
             context.state.list = page.items;
         },
-        async get(context, payload) {
-            let response = await Ajax.get('/api/services/app/Role/Get?Id=' + payload.id);
-            return response.data.result;
-        },
         async getTreePermissions(context) {
             let response = await Ajax.get('/api/services/app/Role/GetTreePermissions');
             context.state.permissions = response.data.result.items;
+        },
+        async get(context, payload) {
+            return await Ajax.get('/api/services/app/Role/Get?Id=' + payload.id);
+        },
+        async getRoleForEdit(context, payload) {
+            return await Ajax.get('/api/services/app/Role/GetRoleForEdit?Id=' + payload.id);
         },
         async create(context, payload) {
             return await Ajax.post('/api/services/app/Role/Create', payload.data);

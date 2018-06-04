@@ -83,7 +83,7 @@ export default {
                             },
                             on:{
                                 click:()=>{
-                                    this.$store.commit('role/edit', params.row);
+                                    this.$store.commit('role/edit', params.row.id);
                                     this.edit();
                                 }
                             }

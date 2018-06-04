@@ -71,19 +71,26 @@ export default {
             if(!value) {
                 this.$refs.roleForm.resetFields();
                 this.$emit('input', value);
-                // 重置树节点状态
-                // if(this.$refs.tree.getCheckedNodes().length > 0) {
-                //     this.$refs.tree.handleCheck({checked:false, nodeKey:0});
-                // }
                 var treeData = Util.resetPermissionTree(this.permissions);
                 this.$store.commit('role/setPermissions', treeData);
             }
             else {
-                this.roleModel = Util.extend(true, {}, this.$store.state.role.editRole);
-                if(this.roleModel.permissions.length > 0) {
-                    var treeData = Util.checkedPermissionTree(this.permissions, this.roleModel.permissions);
-                    this.$store.commit('role/setPermissions', treeData);
-                }
+                var that = this;
+                let response = this.$store.dispatch({
+                    type:'role/getRoleForEdit',
+                    id:this.$store.state.role.editRoleId
+                }).then(function(response) {
+                    if(response&&response.data&&response.data.success&&response.data.result) {
+                        that.roleModel = Util.extend(true, {}, response.data.result);
+                        if(that.roleModel.permissions.length > 0) {
+                            var treeData = Util.checkedPermissionTree(that.permissions, that.roleModel.permissions);
+                            that.$store.commit('role/setPermissions', treeData);
+                        }
+                    }
+                    else {
+                        that.$Message.error('数据加载失败');
+                    }
+                });
             }
         },
         save() {

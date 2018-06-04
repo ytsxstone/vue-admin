@@ -71,10 +71,6 @@ export default {
             if(!value) {
                 this.$refs.roleForm.resetFields();
                 this.$emit('input', value);
-                // 重置树节点状态
-                // if(this.$refs.tree.getCheckedNodes().length > 0) {
-                //     this.$refs.tree.handleCheck({checked:false, nodeKey:0});
-                // }
                 var treeData = Util.resetPermissionTree(this.permissions);
                 this.$store.commit('role/setPermissions', treeData);
             }

@@ -4,6 +4,7 @@ import app from './modules/app';
 import session from './modules/session';
 import user from './modules/user';
 import role from './modules/role';
+import product from './modules/product';
 
 Vue.use(Vuex);
 
@@ -21,6 +22,7 @@ export default new Vuex.Store({
         app,
         session,
         user,
-        role
+        role,
+        product
     }
 });
