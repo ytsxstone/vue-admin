@@ -4,7 +4,10 @@ import app from './modules/app';
 import session from './modules/session';
 import user from './modules/user';
 import role from './modules/role';
+import pointRank from './modules/pointRank';
+import pointRule from './modules/pointRule';
 import product from './modules/product';
+import category from './modules/category';
 
 Vue.use(Vuex);
 
@@ -23,6 +26,9 @@ export default new Vuex.Store({
         session,
         user,
         role,
-        product
+        pointRule,
+        pointRank,
+        product,
+        category
     }
 });

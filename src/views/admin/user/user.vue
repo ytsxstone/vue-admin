@@ -61,7 +61,6 @@ export default {
             },{
                 title: '激活',
                 render:(h,params)=>{
-                    //return h('span',params.row.isActive?'是':'否');
                     return h('tag',{ 
                         props:{
                             color:params.row.isActive?'default':'yellow',

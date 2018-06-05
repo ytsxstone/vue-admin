@@ -75,25 +75,22 @@ export default {
                 this.$store.commit('role/setPermissions', treeData);
             }
             else {
-                var that = this;
                 let response = this.$store.dispatch({
                     type:'role/getRoleForEdit',
                     id:this.$store.state.role.editRoleId
-                }).then(function(response) {
+                }).then((response) => {
                     if(response&&response.data&&response.data.success&&response.data.result) {
-                        that.roleModel = Util.extend(true, {}, response.data.result);
-                        if(that.roleModel.permissions.length > 0) {
-                            var treeData = Util.checkedPermissionTree(that.permissions, that.roleModel.permissions);
-                            that.$store.commit('role/setPermissions', treeData);
+                        this.roleModel = Util.extend(true, {}, response.data.result);
+                        if(this.roleModel.permissions.length > 0) {
+                            var treeData = Util.checkedPermissionTree(this.permissions, this.roleModel.permissions);
+                            this.$store.commit('role/setPermissions', treeData);
                         }
                     }
                     else {
-                        that.$Message.error('获取编辑数据失败');
+                        this.$Message.error('获取编辑数据失败');
                     }
-                }).catch(function(error) {
-                    setTimeout(() => {
-                        that.$emit('input', false);
-                    }, 3000);
+                }).catch((error) => {
+                    setTimeout(() => {this.$emit('input', false);}, 1500);
                 });
             }
         },

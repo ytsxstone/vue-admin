@@ -78,21 +78,18 @@ export default {
                 this.$emit('input', value);
             }
             else {
-                var that = this;
                 let response = this.$store.dispatch({
                     type:'user/get',
                     id:this.$store.state.user.editUserId
-                }).then(function(response) {
+                }).then((response) => {
                     if(response&&response.data&&response.data.success&&response.data.result) {
-                        that.userModel = Util.extend(true, {}, response.data.result);
+                        this.userModel = Util.extend(true, {}, response.data.result);
                     }
                     else {
-                        that.$Message.error('获取编辑数据失败');
+                        this.$Message.error('获取编辑数据失败');
                     }
-                }).catch(function(error) {
-                    setTimeout(() => {
-                        that.$emit('input', false);
-                    }, 3000);
+                }).catch((error) => {
+                    setTimeout(() => {this.$emit('input', false);}, 1500);
                 });
             }
         },

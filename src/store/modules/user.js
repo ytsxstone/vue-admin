@@ -55,7 +55,7 @@ const user = {
         },
         async changePassword(context, payload) {
             return await Ajax.post('/api/services/app/User/ChangePassword', payload.data);
-        },
+        }
     }
 };
 
