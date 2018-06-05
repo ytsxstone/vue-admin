@@ -25,6 +25,10 @@ const pointRule = {
     actions: {
         async getAll(context, payload) {
             context.state.loading = true;
+            // 初始化积分动作列表
+            if(context.state.pointActions.length <= 0) {
+                await context.dispatch('getAllPointActions');
+            }
             let response = await Ajax.get('/api/services/app/PointRule/GetAll', {params: payload.data});
             context.state.loading = false;
             let page = response.data.result;

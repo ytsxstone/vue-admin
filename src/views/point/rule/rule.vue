@@ -166,26 +166,15 @@ export default {
             });
         },
         switchActionName(key) {
+            let pointActions = this.$store.state.pointRule.pointActions;
             let actionKey = parseInt(key);
-            let actionName = '';
-            switch (actionKey)
-            {
-                case 10:
-                    actionName = "上传商品";
-                    break;
-                case 20:
-                    actionName = "购买商品";
-                    break;
-                case 30:
-                    actionName = "注册";
-                    break;
-                case 40:
-                    actionName = "推荐";
-                    break;
-                default:
-                    actionName = "未定义";
-                    break;
-            }
+            let actionName = '未定义';
+            // 匹配积分动作
+            pointActions.forEach(item => {
+                if(item.id == actionKey) {
+                    actionName = item.name;
+                }
+            });
 
             return actionName;
         }

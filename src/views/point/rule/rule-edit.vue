@@ -9,22 +9,18 @@
          >
             <Form ref="editForm" label-position="top" :rules="rules" :model="editModel">
                 <FormItem label="积分动作" prop="name">
-                    <Input v-model="editModel.name" :maxlength="16"></Input>
+                    <Select v-model="editModel.name" style="width:200px">
+                        <Option v-for="item in pointActions" :value="item.id" :key="item.id">{{ item.name }}</Option>
+                    </Select> 
                 </FormItem>
-                <FormItem label="积分奖励" prop="minPoint">
-                    <Input v-model="editModel.minPoint" :maxlength="8" number></Input>
+                <FormItem label="积分奖励" prop="point">
+                    <Input v-model="editModel.point" :maxlength="5" number></Input>
                 </FormItem>
-                <FormItem label="活动兑奖" prop="minPoint">
-                    <Switch size="large">
-                        <span slot="open">ON</span>
-                        <span slot="close">OFF</span>
-                    </Switch>
+                <FormItem prop="isActivity">
+                    <Checkbox v-model="editModel.isActivity" size="large">活动兑奖</Checkbox>
                 </FormItem>
-                <FormItem label="兑换商品" prop="minPoint">
-                   <Switch size="large">
-                        <span slot="open">ON</span>
-                        <span slot="close">OFF</span>
-                    </Switch>
+                <FormItem prop="isCommodity">
+                    <Checkbox v-model="editModel.isCommodity" size="large">兑换商品</Checkbox>
                 </FormItem>
                 <FormItem label="备注" prop="remark">
                     <Input v-model="editModel.remark" type="textarea"></Input>
@@ -53,15 +49,15 @@ export default {
         };
         return {
             editModel: {
-                avatar: '',
-                name: '',
-                minPoint: '',
+                name: 0,
+                point: '',
+                isActivity: true,
+                isCommodity: true,
                 remark: ''
             },
             rules: {
-                name:[{ required: true, message: '等级名称不能为空', trigger: 'blur' }],
-                minPoint:[
-                    { required: true, type: 'number', message: '最小积分不能为空', trigger: 'blur' },
+                point:[
+                    { required: true, type: 'number', message: '积分奖励不能为空', trigger: 'blur' },
                     { validator: valideMinPoint, trigger: 'blur' }
                 ]
             }
@@ -76,6 +72,11 @@ export default {
             type: Boolean,
             default: false
         },
+    },
+    computed: {
+        pointActions() {
+            return this.$store.state.pointRule.pointActions;
+        }
     },
     methods: {
         visibleChange(value) {
