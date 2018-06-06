@@ -31,9 +31,9 @@
                         :on-format-error="handleFormatError"
                         :on-exceeded-size="handleMaxSize"
                         :before-upload="handleBeforeUpload"
-                        multiple
                         type="drag"
                         :action="uploadActionUrl"
+                        :headers="{'Authorization': this.token}"
                         style="display: inline-block;width:58px;">
                         <div style="width: 58px;height:58px;line-height: 58px;">
                             <Icon type="camera" size="20"></Icon>
@@ -89,12 +89,14 @@ export default {
                     { validator: valideMinPoint, trigger: 'blur' }
                 ]
             },
-            uploadActionUrl: appConfig.remoteServiceBaseUrl + '',
+            uploadActionUrl: appConfig.remoteServiceBaseUrl + '/api/services/app/PointRank/UploadAvatar',
             avatarBaseUrl: appConfig.remoteServiceBaseUrl + appConfig.remoteServicePointAvatarPath,
             defaultList: [],
             avatarViewUrl: '',
             visible: false,
-            uploadList: []
+            uploadList: [],
+            deleteList: [],
+            token: "Bearer " + window.abp.auth.getToken()
         };
     },
     props: {
@@ -112,6 +114,10 @@ export default {
             if(!value) {
                 this.$refs.editForm.resetFields();
                 this.$emit('input', value);
+                // 清空默认头像
+                this.deleteList = [];
+                this.defaultList = [];
+                this.$nextTick(() => {this.uploadList = this.$refs.upload.fileList;});   
             }
             else {
                 if(this.title == '修改') {
@@ -121,6 +127,19 @@ export default {
                     }).then((response) => {
                         if(response&&response.data&&response.data.success&&response.data.result) {
                             this.editModel = Util.extend(true, {}, response.data.result);
+                            if(this.editModel.avatar != '') {
+                                this.defaultList = [
+                                    {
+                                        'name': this.editModel.avatar,
+                                        'url': this.avatarBaseUrl + '/' + this.editModel.avatar
+                                    }
+                                ];
+                                this.deleteList.push(this.editModel.avatar);
+                            }
+                            else {
+                                this.defaultList = [];
+                            }
+                            this.$nextTick(() => {this.uploadList = this.$refs.upload.fileList;});   
                         }
                         else {
                             this.$Message.error('获取修改数据失败');
@@ -170,9 +189,13 @@ export default {
             const fileList = this.$refs.upload.fileList;
             this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
         },
-        handleSuccess (res, file) {
-            file.url = 'https://o5wwk8baw.qnssl.com/7eb99afb9d5f317c912f08b5212fd69a/avatar';
-            file.name = '7eb99afb9d5f317c912f08b5212fd69a';
+        handleSuccess (response, file) {
+            if(response&&response&&response.success) {
+                file.name = response.result.name;
+                file.url = this.avatarBaseUrl + '/' + file.name;
+                this.editModel.avatar = file.name;
+                this.deleteList.push(file.name);
+            }
         },
         handleFormatError (file) {
             this.$Notice.warning({
@@ -187,6 +210,10 @@ export default {
             });
         },
         handleBeforeUpload () {
+            // 删除数组所有元素
+            const fileList = this.$refs.upload.fileList;
+            this.$refs.upload.fileList.splice(0, fileList.length);
+
             const check = this.uploadList.length < 1;
             if (!check) {
                 this.$Notice.warning({
