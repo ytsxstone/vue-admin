@@ -21,6 +21,7 @@
 
 <script>
 import rankEdit from './rank-edit.vue';
+import appConfig from '@/libs/appConfig.js';
 import Util from '@/libs/util.js';
 
 export default {
@@ -37,7 +38,18 @@ export default {
                 edit: Util.abp.auth.isGranted('Pages.PointManagement.PointRanks.Edit'),
                 delete: Util.abp.auth.isGranted('Pages.PointManagement.PointRanks.Delete'),
             },
+            avatarUrl: appConfig.remoteServiceBaseUrl + appConfig.remoteServicePointAvatarPath,
             columns: [{
+                title: '等级头像',
+                width: 120,
+                render:(h,params)=>{
+                    return h('Avatar',{ 
+                        props:{
+                            src: this.avatarUrl + params.row.avatar
+                        },
+                    });
+                }
+            },{
                 title: '等级名称',
                 key: 'name'
             },{
