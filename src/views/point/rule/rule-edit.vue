@@ -8,7 +8,7 @@
             @on-visible-change="visibleChange"
          >
             <Form ref="editForm" label-position="top" :rules="rules" :model="editModel">
-                <FormItem label="积分动作" prop="name">
+                <FormItem label="方案名称" prop="name">
                     <Select v-model="editModel.name" style="width:200px">
                         <Option v-for="item in pointActions" :value="item.id" :key="item.id">{{ item.name }}</Option>
                     </Select> 
@@ -49,13 +49,16 @@ export default {
         };
         return {
             editModel: {
-                name: 0,
+                name: '',
                 point: '',
                 isActivity: true,
                 isCommodity: true,
                 remark: ''
             },
             rules: {
+                name:[
+                    { required: true, type: 'number', message: '请选择积分方案', trigger: 'change' }
+                ],
                 point:[
                     { required: true, type: 'number', message: '积分奖励不能为空', trigger: 'blur' },
                     { validator: valideMinPoint, trigger: 'blur' }

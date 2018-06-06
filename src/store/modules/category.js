@@ -1,6 +1,6 @@
 import Ajax from '@/libs/ajax';
 
-const user = {
+const category={
     namespaced: true,
     state: {
         totalCount: 0,
@@ -8,7 +8,7 @@ const user = {
         pageSize: 10,
         list: [],
         loading: false,
-        editUserId: 0,
+        editUser: null,
         roles: []
     },
     mutations: {
@@ -18,39 +18,37 @@ const user = {
         setPageSize(state, pageSize) {
             state.pageSize = pageSize;
         },
-        edit(state, id) {
-            state.editUserId = id;
+        edit(state, user) {
+            state.editUser = user;
         }
     },
     actions: {
         async getAll(context, payload) {
             context.state.loading = true;
-            let response = await Ajax.get('/api/services/app/User/GetAll', {params: payload.data});
+            let response = await Ajax.get('/api/services/app/Category/GetAll', {params: payload.data});
             context.state.loading = false;
             let page = response.data.result;
             context.state.totalCount = page.totalCount;
             context.state.list = page.items;
         },
-        async getRoles(context) {
-            let response = await Ajax.get('/api/services/app/User/GetRoles');
-            context.state.roles = response.data.result.items;
-        },
         async get(context, payload) {
-            return await Ajax.get('/api/services/app/User/Get?Id=' + payload.id);
+            let response = await Ajax.get('/api/services/app/Category/Get?Id=' + payload.id);
+            return response.data.result;
+        },
+        async getCategory(context, payload) {
+            let response = await Ajax.get('/api/services/app/Category/GetParent');
+            return response.data.result;
         },
         async create(context, payload) {
-            return await Ajax.post('/api/services/app/User/Create', payload.data);
+            await Ajax.post('/api/services/app/Category/Create', payload.data);
         },
         async update(context, payload) {
-            return await Ajax.put('/api/services/app/User/Update', payload.data);
+            await Ajax.put('/api/services/app/Category/Update', payload.data);
         },
         async delete(context, payload) {
-            return await Ajax.delete('/api/services/app/User/Delete?Id=' + payload.data.id);
-        },
-        async changeLanguage(context, payload) {
-            return await Ajax.post('/api/services/app/User/ChangeLanguage', payload.data);
+            await Ajax.delete('/api/services/app/Category/Delete?Id=' + payload.data.id);
         }
     }
-};
+}
 
-export default user;
+export default category;

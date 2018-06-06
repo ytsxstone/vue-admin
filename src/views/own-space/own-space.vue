@@ -74,7 +74,7 @@ export default {
             this.$refs.userForm.validate(async (valid) => {
                 if (valid) {
                     let response = await this.$store.dispatch({
-                        type:'user/updateUserInfo',
+                        type:'common/updateUserInfo',
                         data:this.userModel
                     });
                     if(response&&response.data&&response.data.success) {

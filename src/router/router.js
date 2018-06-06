@@ -94,8 +94,8 @@ export const appRouter = [
         meta: { title: '积分设置' },
         component: main,
         children: [
-            { path: 'rank', name: 'rank', permission:'Pages.PointManagement.PointRanks', meta: { title: '积分体系' }, component: () => import('@/views/point/rank/rank.vue') },
-            { path: 'rule', name: 'rule', permission:'Pages.PointManagement.PointRules', meta: { title: '积分规则' }, component: () => import('@/views/point/rule/rule.vue') }
+            { path: 'rank', name: 'rank', permission:'Pages.PointManagement.PointRanks', meta: { title: '积分等级' }, component: () => import('@/views/point/rank/rank.vue') },
+            { path: 'rule', name: 'rule', permission:'Pages.PointManagement.PointRules', meta: { title: '积分方案' }, component: () => import('@/views/point/rule/rule.vue') }
         ]
     },
     {

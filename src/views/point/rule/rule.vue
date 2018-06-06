@@ -38,7 +38,7 @@ export default {
                 delete: Util.abp.auth.isGranted('Pages.PointManagement.PointRules.Delete'),
             },
             columns: [{
-                title: '积分动作',
+                title: '方案名称',
                 render:(h,params)=>{
                     return h('span', this.switchActionName(params.row.name))
                 }

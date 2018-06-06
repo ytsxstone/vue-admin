@@ -84,7 +84,7 @@ export default {
             this.$refs.editPasswordForm.validate(async (valid)=>{
                 if(valid) {
                     let response = await this.$store.dispatch({
-                        type:'user/changePassword',
+                        type:'common/changePassword',
                         data:this.editPasswordModel
                     });
                     if(response&&response.data&&response.data.success) {
