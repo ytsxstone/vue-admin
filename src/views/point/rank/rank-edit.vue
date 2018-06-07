@@ -33,7 +33,8 @@
                         :before-upload="handleBeforeUpload"
                         type="drag"
                         :action="uploadActionUrl"
-                        :headers="{'Authorization': this.token}"
+                        :data="dataParam"
+                        :headers="headerParam"
                         style="display: inline-block;width:58px;">
                         <div style="width: 58px;height:58px;line-height: 58px;">
                             <Icon type="camera" size="20"></Icon>
@@ -89,14 +90,20 @@ export default {
                     { validator: valideMinPoint, trigger: 'blur' }
                 ]
             },
-            uploadActionUrl: appConfig.remoteServiceBaseUrl + '/api/services/app/PointRank/UploadAvatar',
+            uploadActionUrl: appConfig.remoteServiceBaseUrl + '/api/services/app/Common/UploadFile',
+            baseUrl: appConfig.remoteServiceBaseUrl,
             avatarBaseUrl: appConfig.remoteServiceBaseUrl + appConfig.remoteServicePointAvatarPath,
             defaultList: [],
             avatarViewUrl: '',
             visible: false,
             uploadList: [],
-            deleteList: [],
-            token: "Bearer " + window.abp.auth.getToken()
+            dataParam: {
+                UploadType: 10,
+                FileType: 10   
+            },
+            headerParam: {
+                Authorization: "Bearer " + window.abp.auth.getToken()
+            }
         };
     },
     props: {
@@ -115,7 +122,6 @@ export default {
                 this.$refs.editForm.resetFields();
                 this.$emit('input', value);
                 // 清空默认头像
-                this.deleteList = [];
                 this.defaultList = [];
                 this.$nextTick(() => {this.uploadList = this.$refs.upload.fileList;});   
             }
@@ -134,7 +140,6 @@ export default {
                                         'url': this.avatarBaseUrl + '/' + this.editModel.avatar
                                     }
                                 ];
-                                this.deleteList.push(this.editModel.avatar);
                             }
                             else {
                                 this.defaultList = [];
@@ -191,10 +196,9 @@ export default {
         },
         handleSuccess (response, file) {
             if(response&&response&&response.success) {
-                file.name = response.result.name;
-                file.url = this.avatarBaseUrl + '/' + file.name;
+                file.name = response.result.fileName;
+                file.url = this.baseUrl + '/' + response.result.filePath;
                 this.editModel.avatar = file.name;
-                this.deleteList.push(file.name);
             }
         },
         handleFormatError (file) {

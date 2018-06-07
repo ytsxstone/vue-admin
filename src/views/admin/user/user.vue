@@ -48,6 +48,10 @@ export default {
                 delete: Util.abp.auth.isGranted('Pages.SystemManagement.Users.Delete'),
             },
             columns: [{
+                type: 'index',
+                width: 60,
+                align: 'center'
+            },{
                 title: '用户名',
                 key: 'userName'
             },{

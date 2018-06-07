@@ -81,7 +81,8 @@ export const appRouter = [
         meta: { title: '商品管理' },
         component: main,
         children: [
-            { path: 'category', name: 'category', permission: 'Pages.ProductManagement.Categorys', meta: { title: '商品分类' }, component: () => import('@/views/product/category.vue') },
+            { path: 'category', name: 'category', permission: 'Pages.ProductManagement.Categorys', meta: { title: '商品分类' }, component: () => import('@/views/product/category/category.vue') },
+            { path: 'attr', name: 'attr', permission: 'Pages.ProductManagement.Analysis', meta: { title: '屬性管理' }, component: () => import('@/views/product/attr/attr.vue') },
             { path: 'analysis', name: 'analysis', permission: 'Pages.ProductManagement.Analysis', meta: { title: '商品分析' }, component: () => import('@/views/product/analysis.vue') },
             { path: 'index', name: 'product', permission: 'Pages.ProductManagement.Products', meta: { title: '商品列表' }, component: () => import('@/views/product/product.vue') }
         ]

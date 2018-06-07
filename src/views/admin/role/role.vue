@@ -48,6 +48,10 @@ export default {
                 delete: Util.abp.auth.isGranted('Pages.SystemManagement.Roles.Delete'),
             },
             columns: [{
+                type: 'index',
+                width: 60,
+                align: 'center'
+            },{
                 title: '角色名称',
                 key: 'name'
             },{

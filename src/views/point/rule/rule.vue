@@ -38,6 +38,10 @@ export default {
                 delete: Util.abp.auth.isGranted('Pages.PointManagement.PointRules.Delete'),
             },
             columns: [{
+                type: 'index',
+                width: 60,
+                align: 'center'
+            },{
                 title: '方案名称',
                 render:(h,params)=>{
                     return h('span', this.switchActionName(params.row.name))

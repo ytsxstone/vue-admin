@@ -8,6 +8,7 @@ import pointRank from './modules/pointRank';
 import pointRule from './modules/pointRule';
 import product from './modules/product';
 import category from './modules/category';
+import attr from './modules/attr';
 import common from './modules/common';
 
 Vue.use(Vuex);
@@ -31,6 +32,7 @@ export default new Vuex.Store({
         pointRank,
         product,
         category,
-        common
+        common,
+        attr
     }
 });

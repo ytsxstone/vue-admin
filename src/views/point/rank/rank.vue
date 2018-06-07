@@ -40,12 +40,17 @@ export default {
             },
             avatarUrl: appConfig.remoteServiceBaseUrl + appConfig.remoteServicePointAvatarPath,
             columns: [{
+                type: 'index',
+                width: 60,
+                align: 'center'
+            },{
                 title: '等级头像',
                 width: 120,
                 render:(h,params)=>{
                     return h('Avatar',{ 
                         props:{
-                            src: this.avatarUrl + params.row.avatar
+                            src: params.row.avatar?this.avatarUrl + params.row.avatar:'',
+                            icon: params.row.avatar?'':'person',
                         },
                     });
                 }
