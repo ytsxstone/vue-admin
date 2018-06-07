@@ -8,7 +8,7 @@
             @on-visible-change="visibleChange"
          >
             <Form ref="editForm" label-position="top" :rules="rules" :model="editModel">
-                <FormItem label="等级图像" prop="avatar">
+                <FormItem label="等级头像" prop="avatar">
                     <div class="demo-upload-list" v-for="item in uploadList">
                         <template v-if="item.status === 'finished'">
                             <img :src="item.url">
