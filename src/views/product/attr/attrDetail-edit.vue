@@ -18,13 +18,14 @@
         </Modal>
     </div>
 </template>
+
 <script>
 export default {
     data() {
         return {
             editModel: {
-                value: "",
-                attributeId:""
+                value: '',
+                attributeId: ''
             },
             rules: {
                 value: [{ required: true, message: '属性值不能为空', trigger: 'blur' }]
@@ -35,7 +36,7 @@ export default {
     props: {
         title: {
             type: String,
-            default: "添加"
+            default: '添加'
         },
         value: {
             type: Boolean,

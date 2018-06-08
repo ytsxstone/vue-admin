@@ -2,11 +2,6 @@
     <div>
         <Modal title="添加分类" :value="value" :mask-closable="false" @on-ok="save" @on-visible-change="visibleChange">
             <Form ref="categoryForm" label-position="top" :rules="rules" :model="categoryModel">
-                <!-- <FormItem label="上级分类" prop="name">
-                    <Select v-model="categoryModel.parentId" not-found-text="暂无类型信息" @on-change="changeCategory" clearable style="width:200px">
-                        <Option v-for="item in categoryData" :value="item.id" :key="item.id">{{ item.name }}</Option>
-                    </Select> 
-                </FormItem> -->
                 <FormItem label="分类" prop="parentId">
                     <Cascader v-model="categoryModel.parentId" :data="getCascader" filterable></Cascader>
                 </FormItem>
@@ -30,19 +25,20 @@
 
 <script>
 import Util from '@/libs/util.js';
+
 export default {
     data() {
         return {
             categoryModel: {
-                parentId: '',
-                name: "",
+                parentId: [],
+                name: '',
                 sort: 0,
-                remark: ""
+                remark: ''
             },
             rules: {
-                name: [{ required: true, message: "用户名不能为空", trigger: "blur" }],
-                sort: [{ required: true, message: "排序不为空", trigger: "blur" }],
-                remark: [{ required: true, message: "备注不为空", trigger: "blur" }]
+                name: [{ required: true, message: '用户名不能为空', trigger: 'blur' }],
+                sort: [{ required: true, message: '排序不为空', trigger: 'blur' }],
+                remark: [{ required: true, message: '备注不为空', trigger: 'blur' }]
             },
             categoryData: []
         };
@@ -99,9 +95,6 @@ export default {
         save() {
             this.$refs.categoryForm.validate(async (valid) => {
                 if (valid) {
-                    // if(!this.categoryForm.parentId) {
-                    //     this.categoryForm.parentId = [];
-                    // }
                     if (this.categoryModel.parentId.length > 0) {
                         this.categoryModel.parentId = this.categoryModel.parentId[this.categoryModel.parentId.length - 1]
                     }
@@ -120,9 +113,6 @@ export default {
                     this.$emit('input', false);
                 }
             });
-        },
-        changeCategory(value) {
-
         },
         async getPageData() {
             let pageRequest = {};

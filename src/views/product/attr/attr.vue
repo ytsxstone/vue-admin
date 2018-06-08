@@ -1,6 +1,7 @@
 <style lang="less">
-@import "../../../assets/style/common.less";
+    @import "../../../assets/style/common.less";
 </style>
+
 <template>
     <div>
         <Card>
@@ -9,36 +10,36 @@
             </p>
             <Row>
                 <Col span="12">
-                <Card>
-                    <div slot="title">
-                        属性数据
-                        <div class="inline-block-right">
-                            <Button type="ghost" icon="plus" size="small" @click="addAttr">新增属性</Button>
-                        </div>
-                    </div>
-                    <div class="margin-top-10">
-                        <Table :loading="loading" :columns="columns" border :data="list" @on-row-click="attrData"></Table>
-                        <Page show-sizer class-name="fengpage" :total="totalCount" class="margin-top-10" @on-change="pageChange" @on-page-size-change="pageSizeChange" :page-size="pageSize" :current="currentPage"></Page>
-                    </div>
-                </Card>
-                </Col>
-                <Col span="10" offset="1">
-                <Card>
-                    <div slot="title">
-                        属性对应值数据
-                        <div class="inline-block-right">
-                            <Button type="ghost" icon="plus" size="small" @click="addDetailAttr">新增属性值</Button>
-                        </div>
-                    </div>
-                    <div class="page-body">
-                        <div>
+                    <Card>
+                        <div slot="title">
+                            属性数据
+                            <div class="inline-block-right">
+                                <Button type="ghost" icon="plus" size="small" @click="addAttr">新增属性</Button>
+                            </div>
                         </div>
                         <div class="margin-top-10">
-                            <Table :loading="detailLoading" :columns="detailColumns" border :data="detailList"></Table>
-                            <Page show-sizer class-name="fengpage" :total="detailTotalCount" class="margin-top-10" @on-change="detailPageChange" @on-page-size-change="detailPageSizeChange" :page-size="detailPageSize" :current="detailCurrentPage"></Page>
+                            <Table :loading="loading" :columns="columns" border :data="list" @on-row-click="attrData"></Table>
+                            <Page show-sizer class-name="fengpage" :total="totalCount" class="margin-top-10" @on-change="pageChange" @on-page-size-change="pageSizeChange" :page-size="pageSize" :current="currentPage"></Page>
                         </div>
-                    </div>
-                </Card>
+                    </Card>
+                </Col>
+                <Col span="10" offset="1">
+                    <Card>
+                        <div slot="title">
+                            属性对应值数据
+                            <div class="inline-block-right">
+                                <Button type="ghost" icon="plus" size="small" @click="addDetailAttr">新增属性值</Button>
+                            </div>
+                        </div>
+                        <div class="page-body">
+                            <div>
+                            </div>
+                            <div class="margin-top-10">
+                                <Table :loading="detailLoading" :columns="detailColumns" border :data="detailList"></Table>
+                                <Page show-sizer class-name="fengpage" :total="detailTotalCount" class="margin-top-10" @on-change="detailPageChange" @on-page-size-change="detailPageSizeChange" :page-size="detailPageSize" :current="detailCurrentPage"></Page>
+                            </div>
+                        </div>
+                    </Card>
                 </Col>
             </Row>
         </Card>
@@ -46,9 +47,11 @@
         <attrDetail-edit v-model="editDetailModalShow" :title="detailModalTitle" @save-success="getDetailPageData"></attrDetail-edit>
     </div>
 </template>
+
 <script>
 import attrEdit from './attr-edit.vue';
 import attrDetailEdit from './attrDetail-edit.vue';
+
 export default {
     name: 'attr',
     components: {
@@ -252,7 +255,7 @@ export default {
         },
         addDetailAttr() {
             this.editDetailModalShow = true;
-            this.detailModalTitle = "添加";
+            this.detailModalTitle = '添加';
         },
         edit() {
             this.editModalShow = true;
@@ -260,7 +263,7 @@ export default {
         },
         editDetail() {
             this.editDetailModalShow = true;
-            this.detailModalTitle = "修改";
+            this.detailModalTitle = '修改';
         },
         pageChange(page) {
             this.$store.commit('attr/setCurrentPage', page);

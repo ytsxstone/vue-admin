@@ -5,7 +5,6 @@
                 <FormItem label="所属分类" prop="categoryId">
                     <Cascader v-model="editModel.categoryId" :data="getCascader" filterable></Cascader>
                 </FormItem>
-
                 <FormItem label="属性名称" prop="name">
                     <Input v-model="editModel.name" :maxlength="16"></Input>
                 </FormItem>
@@ -20,7 +19,6 @@
                 <FormItem prop="required">
                     <Checkbox v-model="editModel.required" size="large">是否必须</Checkbox>
                 </FormItem>
-                
             </Form>
             <div slot="footer">
                 <Button @click="cancel">取消</Button>
@@ -29,6 +27,7 @@
         </Modal>
     </div>
 </template>
+
 <script>
 export default {
     data () {
@@ -42,10 +41,10 @@ export default {
         };
         return{
             editModel: {
-                categoryId: "",
-                name: "",
+                categoryId: [],
+                name: '',
                 sort: 0,
-                type: "",
+                type: '',
                 required: ''
             },
             rules: {
