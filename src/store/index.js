@@ -8,6 +8,7 @@ import role from './modules/admin/role';
 import pointRank from './modules/point/pointRank';
 import pointRule from './modules/point/pointRule';
 import attr from './modules/product/attr';
+import attrDetail from './modules/product/attrDetail';
 import category from './modules/product/category';
 import product from './modules/product/product';
 
@@ -33,6 +34,7 @@ export default new Vuex.Store({
         pointRule,
         attr,
         category,
+        attrDetail,
         product,
     }
 });

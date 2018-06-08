@@ -1,17 +1,16 @@
 <template>
     <div>
         <Card>
-            <div class="page-body">
-                <div>
-                    <Row class="inline-block-right">
+                <div slot="title">
+                    属性数据
+                    <div class="inline-block-right">
                         <Button type="ghost" icon="plus" size="small" @click="creat_category"></Button>
                         <Button type="ghost" icon="compose" size="small" @click="edit_category"></Button>
-                    </Row>
+                    </div>
                 </div>
                 <div class="margin-top:20">
-                    <Tree :data="getTreeCategory"></Tree>
+                    <Tree :data="getTreeCategory" @on-select-change="getTreeData"></Tree>
                 </div>
-            </div>
         </Card>
         <!-- @save-success="getPageData" -->
         <category-edit v-model="createModalShow"></category-edit>
@@ -37,11 +36,15 @@ export default {
         creat_category() {
             this.createModalShow = true;
         },
-        edit_category() { }
+        edit_category() { },
+        getTreeData(value) {
+            alert(1)
+            console.info(value);
+        }
     },
     async created() {
         await this.$store.dispatch({
-            type:'category/getTreeCategory'
+            type: 'category/getTreeCategory'
         });
     }
 }

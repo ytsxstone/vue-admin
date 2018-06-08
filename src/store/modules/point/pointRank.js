@@ -33,7 +33,13 @@ const pointRank = {
                 page.items.forEach((item, index, array) => {
                     if(array[index+1]) {
                         let maxPoint = parseInt(array[index+1].minPoint);
-                        item.range = item.minPoint + ' ~ ' + (maxPoint - 1);
+                        maxPoint = maxPoint - 1;
+                        if(item.minPoint != maxPoint) {
+                            item.range = item.minPoint + ' ~ ' + maxPoint;
+                        }
+                        else {
+                            item.range = item.minPoint;
+                        }
                     }
                     else {
                         item.range = '>= ' + item.minPoint;

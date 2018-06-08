@@ -9,7 +9,8 @@ const category={
         list: [],
         loading: false,
         editUser: null,
-        categoryTree:[]
+        categoryTree:[],
+        categoryCascader:[]
     },
     mutations: {
         setCurrentPage(state, page) {
@@ -45,6 +46,10 @@ const category={
         async getTreeCategory(context) {
             let response = await Ajax.get('/api/services/app/Category/GetTreeCategory');
             context.state.categoryTree = response.data.result.items;
+        },
+        async getCascader(context) {
+            let response = await Ajax.get('/api/services/app/Category/GetCascaderCategory');
+            context.state.categoryCascader = response.data.result.items;
         },
         async create(context, payload) {
             await Ajax.post('/api/services/app/Category/Create', payload.data);

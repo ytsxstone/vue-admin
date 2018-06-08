@@ -2,6 +2,10 @@
     <div>
         <Modal :title="title+'属性数据'" :value="value" :mask-closable="false" @on-ok="save" @on-visible-change="visibleChange">
             <Form ref="editForm" label-position="top" :rules="rules" :model="editModel">
+                <FormItem label="所属分类" prop="categoryId">
+                    <Cascader v-model="editModel.categoryId" :data="getCascader" filterable></Cascader>
+                </FormItem>
+
                 <FormItem label="属性名称" prop="name">
                     <Input v-model="editModel.name" :maxlength="16"></Input>
                 </FormItem>
@@ -38,12 +42,14 @@ export default {
         };
         return{
             editModel: {
+                categoryId: "",
                 name: "",
                 sort: 0,
                 type: "",
                 required: ''
             },
             rules: {
+                // categoryId:[{ required: true, message: '所属分类不能为空', trigger: 'blur' }],
                 name:[{ required: true, message: '属性名称不能为空', trigger: 'blur' }],
                 sort:[
                     { required: true, type: 'number', message: '排序不为空', trigger: 'blur' },
@@ -67,6 +73,9 @@ export default {
     computed: {
         attrTypeEnum() {
             return this.$store.state.attr.attrTypeEnum;
+        },
+        getCascader() {
+            return this.$store.state.category.categoryCascader;
         }
     },
     methods:{
@@ -100,12 +109,16 @@ export default {
         save() {
             this.$refs.editForm.validate(async (valid)=>{
                 if(valid) {
+                    
                     let storeType = '';
                     if(this.title == '修改') {
                         storeType = 'attr/update';        
                     }
                     else {
                         storeType = 'attr/create';        
+                    }
+                    if (this.editModel.categoryId.length > 0) {
+                        this.editModel.categoryId = this.editModel.categoryId[this.editModel.categoryId.length - 1]
                     }
                     let response = await this.$store.dispatch({
                         type:storeType,
@@ -124,6 +137,11 @@ export default {
             this.$refs.editForm.resetFields();
             this.$emit('input', false);
         }
+    },
+    async created() {
+        await this.$store.dispatch({
+            type:'category/getCascader'
+        });
     }
 }
 </script>
