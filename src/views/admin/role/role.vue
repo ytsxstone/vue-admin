@@ -48,8 +48,9 @@ export default {
                 delete: Util.abp.auth.isGranted('Pages.SystemManagement.Roles.Delete'),
             },
             columns: [{
+                title: '序号',
                 type: 'index',
-                width: 60,
+                width: 65,
                 align: 'center'
             },{
                 title: '角色名称',
@@ -70,7 +71,7 @@ export default {
                     }, params.row.isStatic?'是':'否');
                 }
             },{
-                title: 'Actions',
+                title: '操作',
                 key: 'Actions',
                 width: 160,
                 render:(h,params)=>{

@@ -1,4 +1,5 @@
 import Ajax from '@/libs/ajax';
+import Util from '@/libs/util.js';
 
 const category={
     namespaced: true,
@@ -10,7 +11,8 @@ const category={
         loading: false,
         editUser: null,
         categoryTree:[],
-        categoryCascader:[]
+        categoryCascader:[],
+        selectAttrList:[]
     },
     mutations: {
         setCurrentPage(state, page) {
@@ -22,8 +24,8 @@ const category={
         edit(state, user) {
             state.editUser = user;
         },
-        setCategory(state, categoryTree) {
-            state.categoryTree = categoryTree;
+        setAttrList(state, list) {
+            state.selectAttrList = list;
         }
     },
     actions: {
@@ -49,16 +51,17 @@ const category={
         },
         async getCascader(context) {
             let response = await Ajax.get('/api/services/app/Category/GetCascaderCategory');
-            context.state.categoryCascader = response.data.result.items;
+            // 删除空children节点
+            context.state.categoryCascader = Util.removeNullChildrenNode(response.data.result.items);
         },
         async create(context, payload) {
-            await Ajax.post('/api/services/app/Category/Create', payload.data);
+            return await Ajax.post('/api/services/app/Category/Create', payload.data);
         },
         async update(context, payload) {
-            await Ajax.put('/api/services/app/Category/Update', payload.data);
+            return await Ajax.put('/api/services/app/Category/Update', payload.data);
         },
         async delete(context, payload) {
-            await Ajax.delete('/api/services/app/Category/Delete?Id=' + payload.data.id);
+            return await Ajax.delete('/api/services/app/Category/Delete?Id=' + payload.data.id);
         }
     }
 }

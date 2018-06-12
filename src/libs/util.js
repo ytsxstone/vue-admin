@@ -274,8 +274,7 @@ util.resetPermissionTree = function(permissions) {
 
     permissions.forEach((item) => {
         let children;
-        if(item.children && item.children.length > 0)
-        {
+        if(item.children && item.children.length > 0) {
             children = this.resetPermissionTree(item.children); 
         }
         let model = {
@@ -299,8 +298,7 @@ util.checkedPermissionTree = function(permissions, checkedNodes) {
 
     permissions.forEach((item) => {
         let children, checkState;
-        if(item.children && item.children.length > 0)
-        {
+        if(item.children && item.children.length > 0) {
             children = this.checkedPermissionTree(item.children, checkedNodes); 
         }
         // 最末级别判断
@@ -329,6 +327,20 @@ util.checkedPermissionTree = function(permissions, checkedNodes) {
     });
 
     return resData;
+}
+
+// 删除children空节点
+util.removeNullChildrenNode = function(JsonObj) {
+    JsonObj.forEach((item) => {
+        if(!item.children) {
+            delete item['children'];
+        }
+        else {
+            this.removeNullChildrenNode(item.children); 
+        }
+    });
+
+    return JsonObj;
 }
 
 export default util;

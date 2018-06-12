@@ -1,23 +1,9 @@
 <template>
     <div>
-        <Modal :title="title+'属性'" :value="value" :mask-closable="false" @on-ok="save" @on-visible-change="visibleChange">
+        <Modal :title="title+'属性数据'" :value="value" :mask-closable="false" @on-ok="save" @on-visible-change="visibleChange">
             <Form ref="editForm" label-position="top" :rules="rules" :model="editModel">
                 <FormItem label="所属分类" prop="categoryId">
-                    <Cascader :data="categoryCascader" @on-change="categoryCascaderChange" change-on-select filterable></Cascader>
-                </FormItem>
-                <FormItem label="属性名称" prop="name">
-                    <Input v-model="editModel.name" :maxlength="16"></Input>
-                </FormItem>
-                <FormItem label="属性类型" prop="type">
-                    <Select v-model="editModel.type" style="width:200px">
-                        <Option v-for="item in attrTypeEnum" :value="item.id" :key="item.id">{{ item.name }}</Option>
-                    </Select> 
-                </FormItem>
-                <FormItem label="排序" prop="sort">
-                    <Input v-model="editModel.sort" :maxlength="8" number style="width:200px"></Input>
-                </FormItem>
-                <FormItem prop="required">
-                    <Checkbox v-model="editModel.required" size="large">是否必须</Checkbox>
+                    <Cascader v-model="editModel.categoryId" :data="getCascader" filterable change-on-select></Cascader>
                 </FormItem>
             </Form>
             <div slot="footer">
@@ -30,7 +16,6 @@
 
 <script>
 import Util from '@/libs/util.js';
-
 export default {
     data () {
         const valideSort = (rule, value, callback) => {
@@ -43,16 +28,13 @@ export default {
         };
         return{
             editModel: {
-                categoryId: '',
+                categoryId: [],
                 name: '',
                 sort: '',
                 type: '',
                 required: false
             },
             rules: {
-                categoryId:[
-                    { required: true, message: '请选择所属分类', trigger: 'change' }
-                ],
                 name:[
                     { required: true, message: '属性名称不能为空', trigger: 'blur' }
                 ],
@@ -80,19 +62,11 @@ export default {
         attrTypeEnum() {
             return this.$store.state.attr.attrTypeEnum;
         },
-        categoryCascader() {
+        getCascader() {
             return this.$store.state.category.categoryCascader;
         }
     },
     methods:{
-        categoryCascaderChange(data) {
-            if (data.length > 0) {
-                this.editModel.categoryId = data[data.length - 1]
-            }
-            else {
-                this.editModel.categoryId = '';
-            }
-        },
         visibleChange(value) {
             if(!value) {
                 this.$refs.editForm.resetFields();
@@ -105,6 +79,7 @@ export default {
                         id:this.$store.state.attr.editAttrId
                     }).then((response) => {
                         if(response&&response.data&&response.data.success&&response.data.result) {
+
                             this.editModel = Util.extend(true, {}, response.data.result);
                         }
                         else {
@@ -130,11 +105,20 @@ export default {
                     else {
                         storeType = 'attr/create';        
                     }
+                    //为数组时重置categoryId的值
+                    if(Object.prototype.toString.call(this.editModel.categoryId)=='[object Array]') {
+                        if (this.editModel.categoryId.length > 0) {
+                            this.editModel.categoryId = this.editModel.categoryId[this.editModel.categoryId.length - 1]
+                        }
+                        else {
+                            this.editModel.categoryId = '';
+                        }
+                    }
                     let response = await this.$store.dispatch({
                         type:storeType,
                         data:this.editModel
                     });
-                    if (response && response.data && response.data.success) {
+                    if(response&&response.data&&response.data.success) {
                         this.$Message.success(this.title+'成功');
                     }
                     this.$refs.editForm.resetFields();

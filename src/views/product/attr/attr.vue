@@ -5,16 +5,13 @@
 <template>
     <div>
         <Card>
-            <p slot="title">
-                属性数据
-            </p>
             <Row>
                 <Col span="12">
                     <Card>
                         <div slot="title">
                             属性数据
                             <div class="inline-block-right">
-                                <Button type="ghost" icon="plus" size="small" @click="addAttr">新增属性</Button>
+                                <Button type="ghost" icon="plus" size="small" @click="addAttr">添加属性</Button>
                             </div>
                         </div>
                         <div class="margin-top-10">
@@ -26,9 +23,9 @@
                 <Col span="10" offset="1">
                     <Card>
                         <div slot="title">
-                            属性对应值数据
+                            属性值数据
                             <div class="inline-block-right">
-                                <Button type="ghost" icon="plus" size="small" @click="addDetailAttr">新增属性值</Button>
+                                <Button type="ghost" icon="plus" size="small" @click="addDetailAttr">添加属性值</Button>
                             </div>
                         </div>
                         <div class="page-body">
@@ -44,13 +41,13 @@
             </Row>
         </Card>
         <attr-edit v-model="editModalShow" :title="modalTitle" @save-success="getPageData"></attr-edit>
-        <attrDetail-edit v-model="editDetailModalShow" :title="detailModalTitle" @save-success="getDetailPageData"></attrDetail-edit>
+        <attr-detail-edit v-model="editDetailModalShow" :title="detailModalTitle" @save-success="getDetailPageData"></attr-detail-edit>
     </div>
 </template>
 
 <script>
 import attrEdit from './attr-edit.vue';
-import attrDetailEdit from './attrDetail-edit.vue';
+import attrDetailEdit from './attr-detail-edit.vue';
 
 export default {
     name: 'attr',
@@ -70,6 +67,11 @@ export default {
                 delete: true,
             },
             columns: [{
+                title: '序号',
+                type: 'index',
+                width: 65,
+                align: 'center'
+            },{
                 title: '属性名',
                 key: "name"
             }, {
@@ -79,12 +81,12 @@ export default {
             {
                 title: "属性类型",
                 render: (h, params) => {
-                    return h('span', this.switchActionName(params.row.type))
+                    return h('span', this.switchTypeName(params.row.type))
                 }
             },
             {
                 title: "所属分类",
-                key: "categoryId"
+                key: "categoryName"
             },
             {
                 title: "是否必须",
@@ -141,7 +143,8 @@ export default {
                                             if (response && response.data && response.data.success) {
                                                 this.$Message.success('删除成功');
                                                 await this.$store.dispatch({
-                                                    type: 'attr/get'
+                                                    type: 'attr/get',
+                                                    data: params.row
                                                 });
                                             }
                                             await this.getPageData();
@@ -154,6 +157,11 @@ export default {
                 }
             }],
             detailColumns: [{
+                title: '序号',
+                type: 'index',
+                width: 65,
+                align: 'center'
+            },{
                 title: '属性值',
                 key: "value"
             },
@@ -175,8 +183,8 @@ export default {
                             },
                             on: {
                                 click: () => {
-                                    this.$store.commit('role/edit', params.row.id);
-                                    this.edit();
+                                    this.$store.commit('attrDetail/edit', params.row.id);
+                                    this.editDetail();
                                 }
                             }
                         }, '编辑'),
@@ -255,7 +263,7 @@ export default {
         },
         addDetailAttr() {
             this.editDetailModalShow = true;
-            this.detailModalTitle = '添加';
+            this.detailModalTitle = "添加";
         },
         edit() {
             this.editModalShow = true;
@@ -263,7 +271,7 @@ export default {
         },
         editDetail() {
             this.editDetailModalShow = true;
-            this.detailModalTitle = '修改';
+            this.detailModalTitle = "修改";
         },
         pageChange(page) {
             this.$store.commit('attr/setCurrentPage', page);
@@ -294,23 +302,23 @@ export default {
             let pageRequest = {};
             pageRequest.maxResultCount = this.pageSize;
             pageRequest.skipCount = (this.currentPage - 1) * this.pageSize;
-            // await this.$store.dispatch({
-            //     type: 'attrDetail/getAll',
-            //     data: pageRequest
-            // });
+            await this.$store.dispatch({
+                type: 'attrDetail/getAll',
+                data: pageRequest
+            });
         },
-        switchActionName(key) {
-            let pointActions = this.$store.state.attr.attrTypeEnum;
-            let actionKey = parseInt(key);
-            let actionName = '未定义';
-            // 匹配积分动作
-            pointActions.forEach(item => {
-                if (item.id == actionKey) {
-                    actionName = item.name;
+        switchTypeName(key) {
+            let attrType = this.$store.state.attr.attrTypeEnum;
+            let typeKey = parseInt(key);
+            let typeName = '未定义';
+            // 匹配属性类型
+            attrType.forEach(item => {
+                if (item.id == typeKey) {
+                    typeName = item.name;
                 }
             });
 
-            return actionName;
+            return typeName;
         },
         async attrData(value){
             await this.$store.dispatch({

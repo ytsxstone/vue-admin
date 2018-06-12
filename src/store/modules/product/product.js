@@ -36,13 +36,13 @@ const product={
             return response.data.result;
         },
         async create(context, payload) {
-            await Ajax.post('/api/services/app/Product/Create', payload.data);
+            return await Ajax.post('/api/services/app/Product/Create', payload.data);
         },
         async update(context, payload) {
-            await Ajax.put('/api/services/app/Product/Update', payload.data);
+            return await Ajax.put('/api/services/app/Product/Update', payload.data);
         },
         async delete(context, payload) {
-            await Ajax.delete('/api/services/app/Product/Delete?Id=' + payload.data.id);
+            return await Ajax.delete('/api/services/app/Product/Delete?Id=' + payload.data.id);
         }
     }
 }

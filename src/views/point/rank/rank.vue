@@ -40,8 +40,9 @@ export default {
             },
             avatarUrl: appConfig.remoteServiceBaseUrl + appConfig.remoteServicePointAvatarPath,
             columns: [{
+                title: '序号',
                 type: 'index',
-                width: 60,
+                width: 65,
                 align: 'center'
             },{
                 title: '等级头像',
@@ -64,7 +65,7 @@ export default {
                 title: '备注',
                 key: 'remark'
             },{
-                title: 'Actions',
+                title: '操作',
                 key: 'Actions',
                 width: 160,
                 render:(h,params)=>{

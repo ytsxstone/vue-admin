@@ -41,7 +41,7 @@
                         </div>
                     </Upload>
                     <Modal title="图片预览" class-name="zindex-top" v-model="visible">
-                        <img :src="avatarViewUrl" v-if="visible" style="width: 100%">
+                        <img :src="avatarViewUrl" style="width: 100%">
                     </Modal>
                 </FormItem>
                 <FormItem label="等级名称" prop="name">

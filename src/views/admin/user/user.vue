@@ -48,8 +48,9 @@ export default {
                 delete: Util.abp.auth.isGranted('Pages.SystemManagement.Users.Delete'),
             },
             columns: [{
+                title: '序号',
                 type: 'index',
-                width: 60,
+                width: 65,
                 align: 'center'
             },{
                 title: '用户名',
@@ -83,7 +84,7 @@ export default {
                     return params.row.lastLoginTime?h('span',new Date(params.row.lastLoginTime).toLocaleString()):'';
                 }
             },{
-                title:this.L('Actions'),
+                title:'操作',
                 key:'Actions',
                 width: 160,
                 render:(h,params)=>{

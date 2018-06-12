@@ -1,10 +1,10 @@
 <template>
     <div>
-        <Modal :title="title+'属性数据'" :value="value" :mask-closable="false" @on-ok="save" @on-visible-change="visibleChange">
+        <Modal :title="title+'属性值'" :value="value" :mask-closable="false" @on-ok="save" @on-visible-change="visibleChange">
             <Form ref="editForm" label-position="top" :rules="rules" :model="editModel">
-                <FormItem label="选择属性" prop="attributeId">
-                    <Select v-model="editModel.attributeId" filterable>
-                        <Option v-for="item in getAllAttr" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                <FormItem label="所属属性" prop="attributeId">
+                    <Select v-model="editModel.attributeId">
+                        <Option v-for="item in allAttrList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                     </Select>
                 </FormItem>
                 <FormItem label="属性值" prop="value">
@@ -20,6 +20,8 @@
 </template>
 
 <script>
+import Util from '@/libs/util.js';
+
 export default {
     data() {
         return {
@@ -28,9 +30,9 @@ export default {
                 attributeId: ''
             },
             rules: {
+                attributeId:[{ required: true, message: '请选择所属属性', trigger: 'change' }],
                 value: [{ required: true, message: '属性值不能为空', trigger: 'blur' }]
-            },
-            allAttr:[]
+            }
         }
     },
     props: {
@@ -44,8 +46,8 @@ export default {
         }
     },
     computed: {
-        getAllAttr() {
-            return this.$store.state.attrDetail.allAttr;
+        allAttrList() {
+            return this.$store.state.attrDetail.allAttrList;
         }
     },
     methods: {
@@ -58,7 +60,7 @@ export default {
                 if (this.title == '修改') {
                     let response = this.$store.dispatch({
                         type: 'attrDetail/get',
-                        id: this.$store.state.attr.editRuleId
+                        id: this.$store.state.attrDetail.editAttrDetailId
                     }).then((response) => {
                         if (response && response.data && response.data.success && response.data.result) {
                             this.editModel = Util.extend(true, {}, response.data.result);

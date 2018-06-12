@@ -8,7 +8,7 @@ const attr={
         pageSize: 10,
         list: [],
         loading: false,
-        editUser: null,
+        editAttrId: 0,
         attrTypeEnum: []
     },
     mutations: {
@@ -18,11 +18,8 @@ const attr={
         setPageSize(state, pageSize) {
             state.pageSize = pageSize;
         },
-        edit(state, user) {
-            state.editUser = user;
-        },
-        setCategory(state, categoryTree) {
-            state.categoryTree = categoryTree;
+        edit(state, id) {
+            state.editAttrId = id;
         }
     },
     actions: {
@@ -42,17 +39,20 @@ const attr={
             context.state.attrTypeEnum = response.data.result.items;
         },
         async get(context, payload) {
-            let response = await Ajax.get('/api/services/app/CategoryAttribute/Get?Id=' + payload.id);
-            return response.data.result;
+            return await Ajax.get('/api/services/app/CategoryAttribute/Get?Id=' + payload.id);
         },
         async create(context, payload) {
-            await Ajax.post('/api/services/app/CategoryAttribute/Create', payload.data);
+            return await Ajax.post('/api/services/app/CategoryAttribute/Create', payload.data);
         },
         async update(context, payload) {
-            await Ajax.put('/api/services/app/CategoryAttribute/Update', payload.data);
+            return await Ajax.put('/api/services/app/CategoryAttribute/Update', payload.data);
         },
         async delete(context, payload) {
-            await Ajax.delete('/api/services/app/CategoryAttribute/Delete?Id=' + payload.data.id);
+            return await Ajax.delete('/api/services/app/CategoryAttribute/Delete?Id=' + payload.data.id);
+        },
+        async getAttrData(context, payload) {
+            let response = await Ajax.get('/api/services/app/CategoryAttribute/GetAttr?Id=' + payload.data);
+            return response.data.result.items;
         }
     }
 }

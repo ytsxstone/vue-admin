@@ -8,8 +8,8 @@ const attrDetail={
         pageSize: 10,
         list: [],
         loading: false,
-        editUser: null,
-        allAttr:[]
+        editAttrDetailId:0,
+        allAttrList:[]
     },
     mutations: {
         setCurrentPage(state, page) {
@@ -18,11 +18,8 @@ const attrDetail={
         setPageSize(state, pageSize) {
             state.pageSize = pageSize;
         },
-        edit(state, user) {
-            state.editUser = user;
-        },
-        setCategory(state, categoryTree) {
-            state.categoryTree = categoryTree;
+        edit(state, id) {
+            state.editAttrDetailId = id;
         }
     },
     actions: {
@@ -35,24 +32,23 @@ const attrDetail={
             context.state.list = page.items;
         },
         async get(context, payload) {
-            let response = await Ajax.get('/api/services/app/CategoryAttrDetail/Get?Id=' + payload.id);
-            return response.data.result;
+            return await Ajax.get('/api/services/app/CategoryAttrDetail/Get?Id=' + payload.id);
         },
         async create(context, payload) {
-            await Ajax.post('/api/services/app/CategoryAttrDetail/Create', payload.data);
+            return await Ajax.post('/api/services/app/CategoryAttrDetail/Create', payload.data);
         },
         async update(context, payload) {
-            await Ajax.put('/api/services/app/CategoryAttrDetail/Update', payload.data);
+            return await Ajax.put('/api/services/app/CategoryAttrDetail/Update', payload.data);
         },
         async delete(context, payload) {
-            await Ajax.delete('/api/services/app/CategoryAttrDetail/Delete?Id=' + payload.data.id);
+            return await Ajax.delete('/api/services/app/CategoryAttrDetail/Delete?Id=' + payload.data.id);
         },
         async getAllAttr(context) {
             let response = await Ajax.get('/api/services/app/CategoryAttribute/GetAllAttr');
-            context.state.allAttr = response.data.result.items;
+            context.state.allAttrList = response.data.result.items;
         },
         async getAttr(context,payload) {
-            let response = await Ajax.get('/api/services/app/CategoryAttrDetail/GetAttr?Id='+payload.data.id);
+            let response = await Ajax.get('/api/services/app/CategoryAttrDetail/GetAttrDetail?Id='+payload.data.id);
             context.state.list = response.data.result.items;
         }
     }
