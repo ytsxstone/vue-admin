@@ -86,7 +86,7 @@ export default {
             },
             {
                 title: "所属分类",
-                key: "categoryName"
+                key: "categoryNamePath"
             },
             {
                 title: "是否必须",
