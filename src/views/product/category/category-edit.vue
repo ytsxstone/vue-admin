@@ -3,7 +3,7 @@
         <Modal title="添加分类" :value="value" :mask-closable="false" @on-ok="save" @on-visible-change="visibleChange">
             <Form ref="categoryForm" label-position="top" :rules="rules" :model="categoryModel">
                 <FormItem label="分类" prop="parentId">
-                    <Cascader v-model="categoryModel.parentId" :data="getCascader" filterable change-on-select></Cascader>
+                    <Cascader v-model="categoryModel.parentId" :data="cascaderCategory" filterable change-on-select></Cascader>
                 </FormItem>
                 <FormItem label="分类名" prop="name">
                     <Input v-model="categoryModel.name" :maxlength="20" :minlength="1"></Input>
@@ -61,8 +61,8 @@ export default {
         }
     },
     computed: {
-        getCascader() {
-            return this.$store.state.category.categoryCascader;
+        cascaderCategory() {
+            return this.$store.state.category.cascaderCategory;
         }
     },
     methods: {
@@ -104,7 +104,7 @@ export default {
     },
     async created() {
         await this.$store.dispatch({
-            type: 'category/getCascader'
+            type: 'category/getCascaderCategory'
         });
     }
 };

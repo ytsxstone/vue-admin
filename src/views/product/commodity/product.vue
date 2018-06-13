@@ -1,5 +1,5 @@
 <style lang="less">
-    @import '../../../assets/style/common.less';
+@import "../../../assets/style/common.less";
 </style>
 
 <template>
@@ -12,106 +12,115 @@
                         <i-button type="primary" icon="ios-search" @click="getPageData">搜索</i-button>
                     </Row>
                     <Row class="inline-block-right">
-                        <i-button type="primary" :disabled="!permissions.create" @click="addProduct"><Icon type="plus"></Icon> 添加商品</i-button>
+                        <i-button type="primary" :disabled="!permissions.create" @click="addProduct">
+                            <Icon type="plus"></Icon> 添加商品</i-button>
                     </Row>
                 </div>
                 <div class="margin-top-10">
                     <Table :loading="loading" :columns="columns" border :data="list"></Table>
-                    <Page  show-sizer class-name="fengpage" :total="totalCount" class="margin-top-10" @on-change="pageChange" @on-page-size-change="pageSizeChange" :page-size="pageSize" :current="currentPage"></Page>
+                    <Page show-sizer class-name="fengpage" :total="totalCount" class="margin-top-10" @on-change="pageChange" @on-page-size-change="pageSizeChange" :page-size="pageSize" :current="currentPage"></Page>
                 </div>
             </div>
         </Card>
-        <!-- <user-create v-model="createModalShow"  @save-success="getPageData"></user-create>
-        <user-edit v-model="editModalShow" @save-success="getPageData"></user-edit> -->
+        <product-edit v-model="editModalShow" :title="modalTitle" @save-success="getPageData"></product-edit>
     </div>
 </template>
 
 <script>
 import productEdit from './product-edit.vue';
-    export default{
-        name: 'product',
-        components:{
-            productEdit
+export default {
+    name: 'product',
+    components: {
+        productEdit
+    },
+    data() {
+        return {
+            keyWord: '',
+            permissions: {
+                create: true,
+                edit: true,
+                delete: true,
+            },
+            modalTitle:"添加",
+            editModalShow:false,
+            columns: [{
+                title: '序号',
+                width: 60,
+                type: 'index'
+            }, {
+                title: 'ID',
+                key: 'id'
+            }, {
+                title: '商品名称',
+                key: 'name'
+            }, {
+                title: '父类',
+                key: 'Name'
+            }, {
+                title: '子类',
+                key: 'Name'
+            }, {
+                title: '图片',
+                key: 'Name'
+            }, {
+                title: '视频',
+                key: 'Name'
+            }, {
+                title: '名称',
+                key: 'Name'
+            }, {
+                title: '数量',
+                key: 'Name'
+            }, {
+                title: '价格',
+                key: 'Name'
+            }, {
+                title: '证书号',
+                key: 'Name'
+            }, {
+                title: '产品编号',
+                key: 'Name'
+            }, {
+                title: '产品说明',
+                key: 'Name'
+            }, {
+                title: '审核',
+                key: 'Name',
+                type: 'selection',
+
+            }, {
+                title: '是否推荐',
+                key: 'Name'
+            }, {
+                title: '状态',
+                key: 'Name'
+            }]
+        }
+    },
+    computed: {
+        list() {
+            return this.$store.state.product.list;
         },
-        data(){
-            return {
-                keyWord: '',
-                columns: [{
-                    title: '序号',
-                    width:60,
-                    type: 'index'
-                },{
-                    title: 'ID',
-                    key: 'id'
-                },{
-                    title: '商品名称',
-                    key: 'name'
-                },{
-                    title: '父类',
-                    key: 'Name'
-                },{
-                    title: '子类',
-                    key: 'Name'
-                },{
-                    title: '图片',
-                    key: 'Name'
-                },{
-                    title: '视频',
-                    key: 'Name'
-                },{
-                    title: '名称',
-                    key: 'Name'
-                },{
-                    title: '数量',
-                    key: 'Name'
-                },{
-                    title: '价格',
-                    key: 'Name'
-                },{
-                    title: '证书号',
-                    key: 'Name'
-                },{
-                    title: '产品编号',
-                    key: 'Name'
-                },{
-                    title: '产品说明',
-                    key: 'Name'
-                },{
-                    title: '审核',
-                    key: 'Name',
-                    type: 'selection',
-                    
-                },{
-                    title: '是否推荐',
-                    key: 'Name'
-                },{
-                    title: '状态',
-                    key: 'Name'
-                }]
-            }
+        loading() {
+            return this.$store.state.product.loading;
         },
-        computed:{
-            list() {
-                return this.$store.state.product.list;
-            },
-            loading() {
-                return this.$store.state.product.loading;
-            },
-            pageSize() {
-                return this.$store.state.product.pageSize;
-            },
-            totalCount() {
-                return this.$store.state.product.totalCount;
-            },
-            currentPage() {
-                return this.$store.state.product.currentPage;
-            }
+        pageSize() {
+            return this.$store.state.product.pageSize;
         },
+        totalCount() {
+            return this.$store.state.product.totalCount;
+        },
+        currentPage() {
+            return this.$store.state.product.currentPage;
+        }
+    },
     methods: {
-        create () {
-            this.createModalShow = true;
+        addProduct() {
+            this.modalTitle="添加";
+            this.editModalShow = true;
         },
-        edit () {
+        edit() {
+            this.modalTitle="编辑";
             this.editModalShow = true;
         },
         pageChange(page) {
@@ -125,7 +134,7 @@ import productEdit from './product-edit.vue';
         async getPageData() {
             let pageRequest = {};
             pageRequest.maxResultCount = this.pageSize;
-            pageRequest.skipCount = (this.currentPage-1)*this.pageSize;
+            pageRequest.skipCount = (this.currentPage - 1) * this.pageSize;
             pageRequest.keyWord = this.keyWord;
             await this.$store.dispatch({
                 type: 'product/getAll',
